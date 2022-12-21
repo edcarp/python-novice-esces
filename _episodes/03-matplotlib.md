@@ -36,36 +36,46 @@ import the `pyplot` module from `matplotlib` and use two of its functions to cre
 
 ~~~
 import matplotlib.pyplot
-image = matplotlib.pyplot.imshow(data)
+image = matplotlib.pyplot.imshow(data[:50,:])
 matplotlib.pyplot.show()
 ~~~
 {: .language-python}
 
-![Heat map representing the `data` variable. Each cell is colored by value along a color gradient
-from blue to yellow.](../fig/inflammation-01-imshow.svg)
+![Heat map representing the wave height from the first 50 days. Each cell is colored by value along a color gradient
+from blue to yellow.](../fig/wavedata-imshow.svg)
 
 Each row in the heat map corresponds to a patient in the clinical trial dataset, and each column
 corresponds to a day in the dataset.  Blue pixels in this heat map represent low values, while
 yellow pixels represent high values.  As we can see, the general number of inflammation flare-ups
 for the patients rises and falls over a 40-day period.
 
-So far so good as this is in line with our knowledge of the clinical trial and Dr. Maverick's
-claims:
-
-* the patients take their medication once their inflammation flare-ups begin
-* it takes around 3 weeks for the medication to take effect and begin reducing flare-ups
-* and flare-ups appear to drop to zero by the end of the clinical trial.
-
-Now let's take a look at the average inflammation over time:
+We could also have plotted the whole dataset:
 
 ~~~
-ave_inflammation = numpy.mean(data, axis=0)
-ave_plot = matplotlib.pyplot.plot(ave_inflammation)
+import matplotlib.pyplot
+image = matplotlib.pyplot.imshow(data)
 matplotlib.pyplot.show()
 ~~~
 {: .language-python}
 
-![A line graph showing the average inflammation across all patients over a 40-day period.](../fig/inflammation-01-average.svg)
+
+<!-- So far so good as this is in line with our knowledge of the clinical trial and Dr. Maverick's
+claims:
+
+* the patients take their medication once their inflammation flare-ups begin
+* it takes around 3 weeks for the medication to take effect and begin reducing flare-ups
+* and flare-ups appear to drop to zero by the end of the clinical trial. -->
+
+Now let's take a look at the average wave-height per day over time:
+
+~~~
+ave_waveheight = numpy.mean(data, axis=1)
+ave_plot = matplotlib.pyplot.plot(ave_waveheight)
+matplotlib.pyplot.show()
+~~~
+{: .language-python}
+
+![A line graph showing the average inflammation across all patients over a 40-day period.](../fig/wavedata-average.svg)
 
 Here, we have put the average inflammation per day across all patients in the variable
 `ave_inflammation`, then asked `matplotlib.pyplot` to create and display a line graph of those
@@ -74,20 +84,20 @@ the medication takes 3 weeks to take effect.  But a good data scientist doesn't 
 average of a dataset, so let's have a look at two other statistics:
 
 ~~~
-max_plot = matplotlib.pyplot.plot(numpy.max(data, axis=0))
+max_plot = matplotlib.pyplot.plot(numpy.max(data, axis=1))
 matplotlib.pyplot.show()
 ~~~
 {: .language-python}
 
-![A line graph showing the maximum inflammation across all patients over a 40-day period.](../fig/inflammation-01-maximum.svg)
+![A line graph showing the maximum inflammation across all patients over a 40-day period.](../fig/wavedata-max.svg)
 
 ~~~
-min_plot = matplotlib.pyplot.plot(numpy.min(data, axis=0))
+min_plot = matplotlib.pyplot.plot(numpy.min(data, axis=1))
 matplotlib.pyplot.show()
 ~~~
 {: .language-python}
 
-![A line graph showing the minimum inflammation across all patients over a 40-day period.](../fig/inflammation-01-minimum.svg)
+![A line graph showing the minimum inflammation across all patients over a 40-day period.](../fig/wavedata-min.svg)
 
 The maximum value rises and falls linearly, while the minimum seems to be a step function.
 Neither trend seems particularly likely, so either there's a mistake in our calculations or
@@ -111,7 +121,7 @@ Here are our three plots side by side:
 import numpy
 import matplotlib.pyplot
 
-data = numpy.loadtxt(fname='inflammation-01.csv', delimiter=',')
+data = numpy.loadtxt(fname='isles-of-scilly-wavenet-2d.csv', delimiter=',')
 
 fig = matplotlib.pyplot.figure(figsize=(10.0, 3.0))
 
@@ -120,22 +130,22 @@ axes2 = fig.add_subplot(1, 3, 2)
 axes3 = fig.add_subplot(1, 3, 3)
 
 axes1.set_ylabel('average')
-axes1.plot(numpy.mean(data, axis=0))
+axes1.plot(numpy.mean(data, axis=1))
 
 axes2.set_ylabel('max')
-axes2.plot(numpy.max(data, axis=0))
+axes2.plot(numpy.max(data, axis=1))
 
 axes3.set_ylabel('min')
-axes3.plot(numpy.min(data, axis=0))
+axes3.plot(numpy.min(data, axis=1))
 
 fig.tight_layout()
 
-matplotlib.pyplot.savefig('inflammation.png')
+matplotlib.pyplot.savefig('wavedata.png')
 matplotlib.pyplot.show()
 ~~~
 {: .language-python}
 
-![Three line graphs showing the daily average, maximum and minimum inflammation over a 40-day period.](../fig/inflammation-01-group-plot.svg)
+![Three line graphs showing the daily average, maximum and minimum wave-heights over a 446-day period.](../fig/wavedata-group-plot.svg)
 
 The [call]({{ page.root }}/reference.html#function-call) to `loadtxt` reads our data,
 and the rest of the program tells the plotting library
@@ -188,7 +198,7 @@ formats, including SVG, PDF, and JPEG.
 > for example:
 >
 > ~~~
-> axes3.set_ylim(0,6)
+> axes3.set_ylim(0,8)
 > ~~~
 > {: .language-python}
 >
@@ -199,8 +209,8 @@ formats, including SVG, PDF, and JPEG.
 > > ~~~
 > > # One method
 > > axes3.set_ylabel('min')
-> > axes3.plot(numpy.min(data, axis=0))
-> > axes3.set_ylim(0,6)
+> > axes3.plot(numpy.min(data, axis=1))
+> > axes3.set_ylim(0,8)
 > > ~~~
 > > {: .language-python}
 > {: .solution}
@@ -208,14 +218,17 @@ formats, including SVG, PDF, and JPEG.
 > > ## Solution
 > > ~~~
 > > # A more automated approach
-> > min_data = numpy.min(data, axis=0)
+> > min_data = numpy.min(data, axis=1)
 > > axes3.set_ylabel('min')
 > > axes3.plot(min_data)
-> > axes3.set_ylim(numpy.min(min_data), numpy.max(min_data) * 1.1)
+> > axes3.set_ylim(numpy.nanmin(min_data), numpy.nanmax(min_data) * 1.1)
 > > ~~~
 > > {: .language-python}
 > {: .solution}
 {: .challenge}
+
+
+## does this bit make any sense for our data?
 
 > ## Drawing Straight Lines
 >
@@ -262,11 +275,11 @@ formats, including SVG, PDF, and JPEG.
 > ## Make Your Own Plot
 >
 > Create a plot showing the standard deviation (`numpy.std`)
-> of the inflammation data for each day across all patients.
+> of the wave data across all days.
 >
 > > ## Solution
 > > ~~~
-> > std_plot = matplotlib.pyplot.plot(numpy.std(data, axis=0))
+> > std_plot = matplotlib.pyplot.plot(numpy.nanstd(data, axis=1))
 > > matplotlib.pyplot.show()
 > > ~~~
 > > {: .language-python}
@@ -283,7 +296,7 @@ formats, including SVG, PDF, and JPEG.
 > > import numpy
 > > import matplotlib.pyplot
 > >
-> > data = numpy.loadtxt(fname='inflammation-01.csv', delimiter=',')
+> > data = numpy.loadtxt(fname='isles-of-scilly-wavenet-2d.csv', delimiter=',')
 > >
 > > # change figsize (swap width and height)
 > > fig = matplotlib.pyplot.figure(figsize=(3.0, 10.0))
@@ -294,13 +307,13 @@ formats, including SVG, PDF, and JPEG.
 > > axes3 = fig.add_subplot(3, 1, 3)
 > >
 > > axes1.set_ylabel('average')
-> > axes1.plot(numpy.mean(data, axis=0))
+> > axes1.plot(numpy.mean(data, axis=1))
 > >
 > > axes2.set_ylabel('max')
-> > axes2.plot(numpy.max(data, axis=0))
+> > axes2.plot(numpy.max(data, axis=1))
 > >
 > > axes3.set_ylabel('min')
-> > axes3.plot(numpy.min(data, axis=0))
+> > axes3.plot(numpy.min(data, axis=1))
 > >
 > > fig.tight_layout()
 > >

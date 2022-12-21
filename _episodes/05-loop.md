@@ -16,16 +16,9 @@ keypoints:
 ---
 
 In the episode about visualizing data,
-we wrote Python code that plots values of interest from our first
-inflammation dataset (`inflammation-01.csv`), which revealed some suspicious features in it.
-
-![Line graphs showing average, maximum and minimum inflammation across all patients over a 40-day
-period.](../fig/03-loop_2_0.png)
-
-We have a dozen data sets right now and potentially more on the way if Dr. Maverick
-can keep up their surprisingly fast clinical trial rate. We want to create plots for all of
-our data sets with a single statement. To do that, we'll have to teach the computer how to
-repeat things.
+we wrote Python code that plots values of interest from the wave-height dataset. 
+What would happen if we want to create plots for all more data sets with a single statement.
+To do that, we'll have to teach the computer how to repeat things.
 
 An example task that we might want to repeat is accessing numbers in a list,
 which we

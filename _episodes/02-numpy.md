@@ -1,5 +1,5 @@
 ---
-title: Analyzing Patient Data
+title: Analyzing some environmental data
 teaching: 40
 exercises: 20
 questions:
@@ -30,7 +30,7 @@ that can be called upon when needed.
 
 ## Loading data into Python
 
-To begin processing the clinical trial inflammation data, we need to load it into Python.
+To begin processing the wavedata, we need to load it into Python.
 We can do that using a library called
 [NumPy](https://numpy.org/doc/stable "NumPy Documentation"), which stands for Numerical Python.
 In general, you should use this library when you want to do fancy things with lots of numbers,
@@ -51,18 +51,18 @@ need for each program.
 Once we've imported the library, we can ask the library to read our data file for us:
 
 ~~~
-numpy.loadtxt(fname='inflammation-01.csv', delimiter=',')
+numpy.loadtxt(fname='isles-of-scilly-wavenet-2d.csv', delimiter=',')
 ~~~
 {: .language-python}
 
 ~~~
-array([[ 0.,  0.,  1., ...,  3.,  0.,  0.],
-       [ 0.,  1.,  2., ...,  1.,  0.,  1.],
-       [ 0.,  1.,  1., ...,  2.,  1.,  1.],
+array([[0.93, 0.91, 0.99, ..., 1.42, 1.61, 1.47],
+       [1.34, 1.2 , 1.26, ..., 1.49, 1.55, 1.66],
+       [1.65, 1.44, 1.36, ..., 1.14, 1.26, 1.33],
        ...,
-       [ 0.,  1.,  1., ...,  1.,  1.,  1.],
-       [ 0.,  0.,  0., ...,  0.,  2.,  0.],
-       [ 0.,  0.,  1., ...,  1.,  1.,  0.]])
+       [4.23, 4.42, 4.56, ..., 6.11, 6.63, 6.6 ],
+       [6.91, 6.98, 7.83, ..., 7.82, 7.82, 7.49],
+       [7.07, 7.03, 6.78, ..., 5.52, 5.24, 5.8 ]])
 ~~~
 {: .output}
 
@@ -100,7 +100,7 @@ value to a variable, we can also assign an array of values to a variable using t
 Let's re-run `numpy.loadtxt` and save the returned data:
 
 ~~~
-data = numpy.loadtxt(fname='inflammation-01.csv', delimiter=',')
+data = numpy.loadtxt(fname='isles-of-scilly-wavenet-2d.csv', delimiter=',', skiprows=1)
 ~~~
 {: .language-python}
 
@@ -114,13 +114,13 @@ print(data)
 {: .language-python}
 
 ~~~
-[[ 0.  0.  1. ...,  3.  0.  0.]
- [ 0.  1.  2. ...,  1.  0.  1.]
- [ 0.  1.  1. ...,  2.  1.  1.]
- ...,
- [ 0.  1.  1. ...,  1.  1.  1.]
- [ 0.  0.  0. ...,  0.  2.  0.]
- [ 0.  0.  1. ...,  1.  1.  0.]]
+[[0.93 0.91 0.99 ... 1.42 1.61 1.47]
+ [1.34 1.2  1.26 ... 1.49 1.55 1.66]
+ [1.65 1.44 1.36 ... 1.14 1.26 1.33]
+ ...
+ [4.23 4.42 4.56 ... 6.11 6.63 6.6 ]
+ [6.91 6.98 7.83 ... 7.82 7.82 7.49]
+ [7.07 7.03 6.78 ... 5.52 5.24 5.8 ]]
 ~~~
 {: .output}
 
@@ -176,11 +176,11 @@ print(data.shape)
 {: .language-python}
 
 ~~~
-(60, 40)
+(446, 24)
 ~~~
 {: .output}
 
-The output tells us that the `data` array variable contains 60 rows and 40 columns. When we
+The output tells us that the `data` array variable contains 21440 rows and 7 columns. When we
 created the variable `data` to store our arthritis data, we did not only create the array; we also
 created information about the array, called [members]({{ page.root }}/reference.html#member) or
 attributes. This extra information describes `data` in the same way an adjective describes a noun.
@@ -199,21 +199,21 @@ print('first value in data:', data[0, 0])
 {: .language-python}
 
 ~~~
-first value in data: 0.0
+first value in data: 0.93
 ~~~
 {: .output}
 
 ~~~
-print('middle value in data:', data[30, 20])
+print('middle value in data:', data[223, 12])
 ~~~
 {: .language-python}
 
 ~~~
-middle value in data: 13.0
+middle value in data: 1.09
 ~~~
 {: .output}
 
-The expression `data[30, 20]` accesses the element at row 30, column 20. While this expression may
+The expression `data[10720, 3]` accesses the element at row 10720, column 3. While this expression may
 not surprise you,
  `data[0, 0]` might.
 Programming languages like Fortran, MATLAB and R start counting at 1
@@ -250,22 +250,27 @@ in the bottom right hand corner.](../fig/python-zero-index.svg)
 {: .callout}
 
 ## Slicing data
-An index like `[30, 20]` selects a single element of an array,
+An index like `[223, 12]` selects a single element of an array,
 but we can select whole sections as well.
 For example,
-we can select the first ten days (columns) of values
-for the first four patients (rows) like this:
+we can select the wavedata from the mornings for the first 10 days like this:
 
 ~~~
-print(data[0:4, 0:10])
+print(data[0:10, 0:12])
 ~~~
 {: .language-python}
 
 ~~~
-[[ 0.  0.  1.  3.  1.  2.  4.  7.  8.  3.]
- [ 0.  1.  2.  1.  2.  1.  3.  2.  2.  6.]
- [ 0.  1.  1.  3.  3.  2.  6.  2.  5.  9.]
- [ 0.  0.  2.  0.  4.  2.  2.  1.  6.  7.]]
+[[0.93 0.91 0.99 0.94 0.98 0.93 0.87 0.83 0.84 0.83 0.83 0.87]
+ [1.34 1.2  1.26 1.33 1.37 1.31 1.52 1.57 1.43 1.5  1.34 1.4 ]
+ [1.65 1.44 1.36 1.14 1.2  1.26 1.1  1.02 1.05 0.89 0.88 0.89]
+ [1.64 1.83 1.99 2.07 2.08 2.35 2.31 2.43 2.29 2.41 2.34 2.81]
+ [4.35 4.28 4.03 3.94 3.9  3.71 3.51 3.59 3.47 3.79 3.73 3.79]
+ [3.94 4.23 4.6  4.51 4.38 4.57 4.42 4.54 4.   4.07 3.61 3.62]
+ [4.58 4.61 4.55 4.62 4.68 4.36 4.9  4.59 4.72 5.03 4.76 4.85]
+ [4.07 4.26 4.63 4.33 4.3  4.17 4.65 4.2  4.65 4.43 3.74 3.65]
+ [3.15 3.09 2.87 2.83 2.97 2.9  2.86 2.8  2.68 2.69 2.59 2.79]
+ [3.13 3.23 3.89 4.17 4.28 4.95 5.14 5.17 5.07 5.31 5.3  4.91]]
 ~~~
 {: .output}
 
@@ -282,11 +287,11 @@ print(data[5:10, 0:10])
 {: .language-python}
 
 ~~~
-[[ 0.  0.  1.  2.  2.  4.  2.  1.  6.  4.]
- [ 0.  0.  2.  2.  4.  2.  2.  5.  5.  8.]
- [ 0.  0.  1.  2.  3.  1.  2.  3.  5.  3.]
- [ 0.  0.  0.  3.  1.  5.  6.  5.  5.  8.]
- [ 0.  1.  1.  2.  1.  3.  5.  3.  5.  8.]]
+[[3.94 4.23 4.6  4.51 4.38 4.57 4.42 4.54 4.   4.07 3.61 3.62]
+ [4.58 4.61 4.55 4.62 4.68 4.36 4.9  4.59 4.72 5.03 4.76 4.85]
+ [4.07 4.26 4.63 4.33 4.3  4.17 4.65 4.2  4.65 4.43 3.74 3.65]
+ [3.15 3.09 2.87 2.83 2.97 2.9  2.86 2.8  2.68 2.69 2.59 2.79]
+ [3.13 3.23 3.89 4.17 4.28 4.95 5.14 5.17 5.07 5.31 5.3  4.91]]
 ~~~
 {: .output}
 
@@ -296,18 +301,17 @@ axis, and if we don't include either (i.e., if we use ':' on its own), the slice
 everything:
 
 ~~~
-small = data[:3, 36:]
-print('small is:')
+small = data[:2, 12:] # afternoon data from first 2 days
+print('small subset of data is:')
 print(small)
 ~~~
 {: .language-python}
-The above example selects rows 0 through 2 and columns 36 through to the end of the array.
+The above example selects rows 0 through 1 (i.e. 0th and 1st) and columns 5 through to the end of the array.
 
 ~~~
-small is:
-[[ 2.  3.  0.  0.]
- [ 1.  1.  0.  1.]
- [ 2.  2.  1.  1.]]
+small subset of data is:
+[[0.91 0.86 0.86 0.96 1.   1.   1.16 1.24 1.25 1.42 1.61 1.47]
+ [1.37 1.42 1.27 1.17 1.23 1.22 1.41 1.48 1.61 1.49 1.55 1.66]]
 ~~~
 {: .output}
 
@@ -323,11 +327,27 @@ print(numpy.mean(data))
 {: .language-python}
 
 ~~~
-6.14875
+nan
 ~~~
 {: .output}
 
-`mean` is a [function]({{ page.root }}/reference.html#function) that takes
+Ah! We have NaNs in our data - this is not an uncommon situation with real-life observational data. We have two
+possible solutions:
+
+ - replace the NaNs with a value (e.g. mean of column or mean of row) - NumPy has methods to help with this
+ - use NunPy's `nanmean` function
+
+~~~
+print(numpy.nanmean(data))
+~~~
+{: .language-python}
+
+~~~
+2.7978422577329223
+~~~
+{: .output}
+
+`mean` and `nanmean` are both [functions]({{ page.root }}/reference.html#function) that takes
 an array as an [argument]({{ page.root }}/reference.html#argument).
 
 > ## Not All Functions Have Input
@@ -358,21 +378,21 @@ We'll also use multiple assignment,
 a convenient Python feature that will enable us to do this all in one line.
 
 ~~~
-maxval, minval, stdval = numpy.max(data), numpy.min(data), numpy.std(data)
+maxval, minval, stdval = numpy.nanmax(data), numpy.nanmin(data), numpy.nanstd(data)
 
-print('maximum inflammation:', maxval)
-print('minimum inflammation:', minval)
-print('standard deviation:', stdval)
+print('max wave height (excluding NaNs):', maxval)
+print('min wave height (excluding NaNs):', minval)
+print('wave height standard deviation (excluding NaNs):', stdval)
 ~~~
 {: .language-python}
 
-Here we've assigned the return value from `numpy.max(data)` to the variable `maxval`, the value
-from `numpy.min(data)` to `minval`, and so on.
+Here we've assigned the return value from `numpy.max(data[:31,6])` to the variable `day1max`, the value
+from `numpy.min(data[:31,6])` to `day1min`, and so on.
 
 ~~~
-maximum inflammation: 20.0
-minimum inflammation: 0.0
-standard deviation: 4.61383319712
+max wave height (excluding NaNs): 9.2
+min wave height (excluding NaNs): 0.33
+wave height standard deviation (excluding NaNs): 1.4554801518585112
 ~~~
 {: .output}
 
@@ -392,21 +412,17 @@ standard deviation: 4.61383319712
 > for example: `help(numpy.cumprod)`.
 {: .callout}
 
-When analyzing data, though,
-we often want to look at variations in statistical values,
-such as the maximum inflammation per patient
-or the average inflammation per day.
-One way to do this is to create a new temporary array of the data we want,
+We could also create a new temporary array of the data we want,
 then ask it to do the calculation:
 
 ~~~
-patient_0 = data[0, :] # 0 on the first axis (rows), everything on the second (columns)
-print('maximum inflammation for patient 0:', numpy.max(patient_0))
+day_1 = data[0, :] # 0 on the first axis (rows), everything on the second (columns)
+print('maximum wave height for day 1:', numpy.max(day_1)) # note we can use numpy.max here if we know there are no NaNs in the data
 ~~~
 {: .language-python}
 
 ~~~
-maximum inflammation for patient 0: 18.0
+maximum wave height for day 1: 1.61
 ~~~
 {: .output}
 
@@ -419,12 +435,12 @@ We don't actually need to store the row in a variable of its own.
 Instead, we can combine the selection and the function call:
 
 ~~~
-print('maximum inflammation for patient 2:', numpy.max(data[2, :]))
+print('maximum wave height for day 1:', numpy.max(data[0, :]))
 ~~~
 {: .language-python}
 
 ~~~
-maximum inflammation for patient 2: 19.0
+maximum wave height for day 1: 1.61
 ~~~
 {: .output}
 
@@ -448,14 +464,10 @@ print(numpy.mean(data, axis=0))
 {: .language-python}
 
 ~~~
-[  0.           0.45         1.11666667   1.75         2.43333333   3.15
-   3.8          3.88333333   5.23333333   5.51666667   5.95         5.9
-   8.35         7.73333333   8.36666667   9.5          9.58333333
-  10.63333333  11.56666667  12.35        13.25        11.96666667
-  11.03333333  10.16666667  10.           8.66666667   9.15         7.25
-   7.33333333   6.58333333   6.06666667   5.95         5.11666667   3.6
-   3.3          3.56666667   2.48333333   1.5          1.13333333
-   0.56666667]
+[2.77298206 2.76988789 2.78100897 2.79625561 2.80480899 2.82852018
+ 2.82278027 2.81230942 2.8182287  2.79439462 2.77721973 2.76695067
+ 2.76636771 2.77544843 2.7638427  2.79567265 2.81172646 2.8126009
+ 2.82834081 2.83363229 2.82076233 2.81183857 2.79876404 2.78381166]
 ~~~
 {: .output}
 
@@ -468,11 +480,11 @@ print(numpy.mean(data, axis=0).shape)
 {: .language-python}
 
 ~~~
-(40,)
+(24,)
 ~~~
 {: .output}
 
-The expression `(40,)` tells us we have an N×1 vector,
+The expression `(24,)` tells us we have an N×1 vector,
 so this is the average inflammation per day for all patients.
 If we average across axis 1 (columns in our 2D example), we get:
 
@@ -482,12 +494,10 @@ print(numpy.mean(data, axis=1))
 {: .language-python}
 
 ~~~
-[ 5.45   5.425  6.1    5.9    5.55   6.225  5.975  6.65   6.625  6.525
-  6.775  5.8    6.225  5.75   5.225  6.3    6.55   5.7    5.85   6.55
-  5.775  5.825  6.175  6.1    5.8    6.425  6.05   6.025  6.175  6.55
-  6.175  6.35   6.725  6.125  7.075  5.725  5.925  6.15   6.075  5.75
-  5.975  5.725  6.3    5.9    6.75   5.925  7.225  6.15   5.95   6.275  5.7
-  6.1    6.825  5.975  6.725  5.7    6.25   6.4    7.05   5.9  ]
+[1.02041667 1.39375    1.0675     3.10333333 3.935      4.195
+ 4.70083333 4.02333333 2.78708333 4.57083333 2.89708333 2.39916667
+ 2.55833333 3.02666667 3.235      3.1175     2.27       1.82
+ ...
 ~~~
 {: .output}
 
@@ -682,8 +692,8 @@ which is the average inflammation per patient across all days.
 
 > ## Change In Inflammation
 >
-> The patient data is _longitudinal_ in the sense that each row represents a
-> series of observations relating to one individual.  This means that
+> The wavedata data is _longitudinal_ in the sense that each row represents a
+> series of observations relating to one "individual" (in this case, an individual is a day).  This means that
 > the change in inflammation over time is a meaningful concept.
 > Let's find out how to calculate changes in the data contained in an array
 > with NumPy.
@@ -693,36 +703,37 @@ which is the average inflammation per patient across all days.
 > each day across the first week of patient 3 from our inflammation dataset.
 >
 > ~~~
-> patient3_week1 = data[3, :7]
-> print(patient3_week1)
+> day4_morning = data[3, :12] # day 4 because of the 0 indexing
+> print(day4_morning)
 > ~~~
 > {: .language-python}
 >
 > ~~~
->  [0. 0. 2. 0. 4. 2. 2.]
+>  [1.64 1.83 1.99 2.07 2.08 2.35 2.31 2.43 2.29 2.41 2.34 2.81]
 > ~~~
 > {: .output}
 >
-> Calling `numpy.diff(patient3_week1)` would do the following calculations
+> Calling `numpy.diff(day4_morning)` would do the following calculations
 >
 > ~~~
-> [ 0 - 0, 2 - 0, 0 - 2, 4 - 0, 2 - 4, 2 - 2 ]
+> [ 1.83 - 1.64, 1.99 - 1.83, 2.07 - 1.99, 2.08 - 2.07, 2.35 - 2.08, 2.31 - 2.35, 2.43 - 2.31, 2.29 - 2.43, 2.41 - 2.29, 2.34 - 2.41, 2.81 - 2.34 ]
 > ~~~
 > {: .language-python}
 >
-> and return the 6 difference values in a new array.
+> and return the 11 difference values in a new array.
 >
 > ~~~
-> numpy.diff(patient3_week1)
+> numpy.diff(day4_morning)
 > ~~~
 > {: .language-python}
 >
 > ~~~
-> array([ 0.,  2., -2.,  4., -2.,  0.])
+> array([ 0.19,  0.16,  0.08,  0.01,  0.27, -0.04,  0.12, -0.14,  0.12,
+>       -0.07,  0.47])
 > ~~~
 > {: .output}
 >
-> Note that the array of differences is shorter by one element (length 6).
+> Note that the array of differences is shorter by one element (length 11).
 >
 > When calling `numpy.diff` with a multi-dimensional array, an `axis` argument may
 > be passed to the function to specify which axis to process. When applying

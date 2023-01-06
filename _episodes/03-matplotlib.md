@@ -20,36 +20,29 @@ there is no official plotting library, `matplotlib` is the _de facto_ standard. 
 import the `pyplot` module from `matplotlib` and use two of its functions to create and display a
 [heat map]({{ page.root }}/reference.html#heat-map) of our data:
 
+# are we going to use a different dataset? if so - update prereqs
+
 > ## Episode Prerequisites
 >
 > If you are continuing in the same notebook from the previous episode, you already
-> have a `data` variable and have imported `numpy`.  If you are starting a new 
-> notebook at this point, you need the following two lines:
+> have a `reshaped_data` variable and have imported `numpy`.
+> 
+> For ease, let's rename the variable:
+>
+> ~~~
+> data = reshaped_data
+> ~~~
+> {: .language-python}
+>
+> If you are starting a new notebook at this point, you need the following two lines:
 >
 > ~~~
 > import numpy
-> data = numpy.loadtxt(fname='inflammation-01.csv', delimiter=',')
+> data = numpy.loadtxt(fname='wavesmonthly.csv', delimiter=',' skip_rows=1)
 > ~~~
 > {: .language-python}
 {: .prereq}
 
-
-~~~
-import matplotlib.pyplot
-image = matplotlib.pyplot.imshow(data[:50,:])
-matplotlib.pyplot.show()
-~~~
-{: .language-python}
-
-![Heat map representing the wave height from the first 50 days. Each cell is colored by value along a color gradient
-from blue to yellow.](../fig/wavedata-imshow.svg)
-
-Each row in the heat map corresponds to a patient in the clinical trial dataset, and each column
-corresponds to a day in the dataset.  Blue pixels in this heat map represent low values, while
-yellow pixels represent high values.  As we can see, the general number of inflammation flare-ups
-for the patients rises and falls over a 40-day period.
-
-We could also have plotted the whole dataset:
 
 ~~~
 import matplotlib.pyplot
@@ -58,24 +51,31 @@ matplotlib.pyplot.show()
 ~~~
 {: .language-python}
 
+![Heat map representing the wave height from the first 50 days. Each cell is colored by value along a color gradient
+from blue to yellow.](../fig/monthly_wavedata-imshow.svg)
 
-<!-- So far so good as this is in line with our knowledge of the clinical trial and Dr. Maverick's
+Each row in the heat map corresponds to a patient in the clinical trial dataset, and each column
+corresponds to a day in the dataset.  Blue pixels in this heat map represent low values, while
+yellow pixels represent high values.  As we can see, the general number of inflammation flare-ups
+for the patients rises and falls over a 40-day period.
+
+So far so good as this is in line with our knowledge of the clinical trial and Dr. Maverick's
 claims:
 
 * the patients take their medication once their inflammation flare-ups begin
 * it takes around 3 weeks for the medication to take effect and begin reducing flare-ups
-* and flare-ups appear to drop to zero by the end of the clinical trial. -->
+* and flare-ups appear to drop to zero by the end of the clinical trial.
 
-Now let's take a look at the average wave-height per day over time:
+Now let's take a look at the average wave-height per month over time:
 
 ~~~
-ave_waveheight = numpy.mean(data, axis=1)
+ave_waveheight = numpy.mean(data, axis=0)
 ave_plot = matplotlib.pyplot.plot(ave_waveheight)
 matplotlib.pyplot.show()
 ~~~
 {: .language-python}
 
-![A line graph showing the average inflammation across all patients over a 40-day period.](../fig/wavedata-average.svg)
+![A line graph showing the average inflammation across all patients over a 40-day period.](../fig/monthly-wavedata-average.svg)
 
 Here, we have put the average inflammation per day across all patients in the variable
 `ave_inflammation`, then asked `matplotlib.pyplot` to create and display a line graph of those
@@ -89,7 +89,7 @@ matplotlib.pyplot.show()
 ~~~
 {: .language-python}
 
-![A line graph showing the maximum inflammation across all patients over a 40-day period.](../fig/wavedata-max.svg)
+![A line graph showing the maximum inflammation across all patients over a 40-day period.](../fig/monthly-wavedata-max.svg)
 
 ~~~
 min_plot = matplotlib.pyplot.plot(numpy.min(data, axis=1))
@@ -97,7 +97,7 @@ matplotlib.pyplot.show()
 ~~~
 {: .language-python}
 
-![A line graph showing the minimum inflammation across all patients over a 40-day period.](../fig/wavedata-min.svg)
+![A line graph showing the minimum inflammation across all patients over a 40-day period.](../fig/monthly-wavedata-min.svg)
 
 The maximum value rises and falls linearly, while the minimum seems to be a step function.
 Neither trend seems particularly likely, so either there's a mistake in our calculations or
@@ -118,11 +118,6 @@ be titled using the `set_xlabel()` command (or `set_ylabel()`).
 Here are our three plots side by side:
 
 ~~~
-import numpy
-import matplotlib.pyplot
-
-data = numpy.loadtxt(fname='isles-of-scilly-wavenet-2d.csv', delimiter=',')
-
 fig = matplotlib.pyplot.figure(figsize=(10.0, 3.0))
 
 axes1 = fig.add_subplot(1, 3, 1)
@@ -147,8 +142,7 @@ matplotlib.pyplot.show()
 
 ![Three line graphs showing the daily average, maximum and minimum wave-heights over a 446-day period.](../fig/wavedata-group-plot.svg)
 
-The [call]({{ page.root }}/reference.html#function-call) to `loadtxt` reads our data,
-and the rest of the program tells the plotting library
+This script tells the plotting library
 how large we want the figure to be,
 that we're creating three subplots,
 what to draw for each one,
@@ -275,11 +269,11 @@ formats, including SVG, PDF, and JPEG.
 > ## Make Your Own Plot
 >
 > Create a plot showing the standard deviation (`numpy.std`)
-> of the wave data across all days.
+> of the wave data across all months.
 >
 > > ## Solution
 > > ~~~
-> > std_plot = matplotlib.pyplot.plot(numpy.nanstd(data, axis=1))
+> > std_plot = matplotlib.pyplot.plot(numpy.nanstd(data, axis=0))
 > > matplotlib.pyplot.show()
 > > ~~~
 > > {: .language-python}
@@ -293,11 +287,6 @@ formats, including SVG, PDF, and JPEG.
 >
 > > ## Solution
 > > ~~~
-> > import numpy
-> > import matplotlib.pyplot
-> >
-> > data = numpy.loadtxt(fname='isles-of-scilly-wavenet-2d.csv', delimiter=',')
-> >
 > > # change figsize (swap width and height)
 > > fig = matplotlib.pyplot.figure(figsize=(3.0, 10.0))
 > >

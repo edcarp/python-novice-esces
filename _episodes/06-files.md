@@ -28,14 +28,14 @@ while `?` matches any one character.
 We can use this to get the names of all the CSV files in the current directory:
 
 ~~~
-print(glob.glob('inflammation*.csv'))
+print(glob.glob('wave*.csv'))
 ~~~
 {: .language-python}
 
 ~~~
-['inflammation-05.csv', 'inflammation-11.csv', 'inflammation-12.csv', 'inflammation-08.csv',
-'inflammation-03.csv', 'inflammation-06.csv', 'inflammation-09.csv', 'inflammation-07.csv',
-'inflammation-10.csv', 'inflammation-02.csv', 'inflammation-04.csv', 'inflammation-01.csv']
+['wave_2012.txt', 'wave_2006.txt', 'wave_2007.txt', 'wave_2013.txt',
+'wave_2011.txt', 'wave_2010.txt', 'wave_2014.txt', 'wave_2015.txt',
+'wave_2009.txt', 'wave_2008.txt']
 ~~~
 {: .output}
 
@@ -54,15 +54,21 @@ import glob
 import numpy
 import matplotlib.pyplot
 
-filenames = sorted(glob.glob('inflammation*.csv'))
+filenames = sorted(glob.glob('waves_*.csv'))
 filenames = filenames[0:3]
+
 for filename in filenames:
     print(filename)
-
+    
     data = numpy.loadtxt(fname=filename, delimiter=',')
+    number_of_rows = data.shape[0]
+    number_of_years = number_of_rows//12
 
+    # need to reshape the data for plotting
+    data = numpy.reshape(data[:,2], [number_of_years,12])
+    
     fig = matplotlib.pyplot.figure(figsize=(10.0, 3.0))
-
+        
     axes1 = fig.add_subplot(1, 3, 1)
     axes2 = fig.add_subplot(1, 3, 2)
     axes3 = fig.add_subplot(1, 3, 3)
@@ -82,7 +88,7 @@ for filename in filenames:
 {: .language-python}
 
 ~~~
-inflammation-01.csv
+waves-00.csv
 ~~~
 {: .output}
 
@@ -91,7 +97,7 @@ maximum and minimum inflammation over a 40-day period for all patients in the fi
 ../fig/03-loop_49_1.png)
 
 ~~~
-inflammation-02.csv
+waves-10s.csv
 ~~~
 {: .output}
 
@@ -100,7 +106,7 @@ maximum and minimum inflammation over a 40-day period for all patients in the se
 dataset.](../fig/03-loop_49_3.png)
 
 ~~~
-inflammation-03.csv
+waves-80s.csv
 ~~~
 {: .output}
 

@@ -32,11 +32,12 @@ import the `pyplot` module from `matplotlib` and use two of its functions to cre
 > ~~~
 > {: .language-python}
 >
-> If you are starting a new notebook at this point, you need the following two lines:
+> If you are starting a new notebook at this point, you need the following three lines:
 >
 > ~~~
 > import numpy
 > data = numpy.loadtxt(fname='wavesmonthly.csv', delimiter=',' skip_rows=1)
+> data = numpy.reshape(data[:,2], [37,12]) 
 > ~~~
 > {: .language-python}
 {: .prereq}

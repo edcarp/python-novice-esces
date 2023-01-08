@@ -1,5 +1,5 @@
 ---
-title: Analyzing some environmental data
+title: Analyzing some wave-height data
 teaching: 40
 exercises: 20
 questions:

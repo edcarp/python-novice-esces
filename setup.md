@@ -25,7 +25,7 @@ and in [Anaconda documentation][anaconda-install].
 3. Move downloaded files to `swc-python`.
 4. Unzip the files.
 
-You should see two folders called `data` and `code` in the `swc-python` directory on your
+You should see a folder called `data` in the `swc-python` directory on your
 Desktop.
 
 ## Launch Python interface

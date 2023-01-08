@@ -469,7 +469,7 @@ Wave height standard deviation: 1.1440155050316319
 > {: .output}
 >
 > If, at a later date, we'd like to replace all the NaNs with a sensible numerical value
-> (e.g. the mean of the column), NumPy also provides functions that can with this
+> (e.g. the mean of the column), NumPy also provides functions that can help with this
 {: .callout}
 
 What happens if the _shape_ of the data is not convenient for us to do some of our analysis? With this 

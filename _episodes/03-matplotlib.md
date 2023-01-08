@@ -49,8 +49,7 @@ matplotlib.pyplot.show()
 ~~~
 {: .language-python}
 
-![Heat map representing the wave height from the first 50 days. Each cell is colored by value along a color gradient
-from blue to yellow.](../fig/monthly_wavedata-imshow.svg)
+![Heat map representing the wave height from the first 50 days. Each cell is colored by value along a color gradient from blue to yellow.](../fig/monthly_wavedata-imshow.png)
 
 Each row in the heat map corresponds to a patient in the clinical trial dataset, and each column
 corresponds to a day in the dataset.  Blue pixels in this heat map represent low values, while
@@ -73,7 +72,7 @@ matplotlib.pyplot.show()
 ~~~
 {: .language-python}
 
-![A line graph showing the average inflammation across all patients over a 40-day period.](../fig/monthly-wavedata-average.svg)
+![A line graph showing the average inflammation across all patients over a 40-day period.](../fig/monthly_wavedata-average.png)
 
 Here, we have put the average inflammation per day across all patients in the variable
 `ave_inflammation`, then asked `matplotlib.pyplot` to create and display a line graph of those
@@ -82,12 +81,12 @@ the medication takes 3 weeks to take effect.  But a good data scientist doesn't 
 average of a dataset, so let's have a look at two other statistics:
 
 ~~~
-max_plot = matplotlib.pyplot.plot(numpy.max(data, axis=1))
+max_plot = matplotlib.pyplot.plot(numpy.max(data, axis=0))
 matplotlib.pyplot.show()
 ~~~
 {: .language-python}
 
-![A line graph showing the maximum inflammation across all patients over a 40-day period.](../fig/monthly-wavedata-max.svg)
+![A line graph showing the maximum inflammation across all patients over a 40-day period.](../fig/monthly_wavedata-max.png)
 
 ~~~
 min_plot = matplotlib.pyplot.plot(numpy.min(data, axis=1))
@@ -95,7 +94,7 @@ matplotlib.pyplot.show()
 ~~~
 {: .language-python}
 
-![A line graph showing the minimum inflammation across all patients over a 40-day period.](../fig/monthly-wavedata-min.svg)
+![A line graph showing the minimum inflammation across all patients over a 40-day period.](../fig/monthly_wavedata-min.png)
 
 The maximum value rises and falls linearly, while the minimum seems to be a step function.
 Neither trend seems particularly likely, so either there's a mistake in our calculations or

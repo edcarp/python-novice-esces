@@ -20,8 +20,6 @@ there is no official plotting library, `matplotlib` is the _de facto_ standard. 
 import the `pyplot` module from `matplotlib` and use two of its functions to create and display a
 [heat map]({{ page.root }}/reference.html#heat-map) of our data:
 
-# are we going to use a different dataset? if so - update prereqs
-
 > ## Episode Prerequisites
 >
 > If you are continuing in the same notebook from the previous episode, you already
@@ -222,7 +220,7 @@ formats, including SVG, PDF, and JPEG.
 {: .challenge}
 
 
-## does this bit make any sense for our data?
+#FAO LUCY: does this bit make any sense for our data? Can we still include a drawstyle example?
 
 > ## Drawing Straight Lines
 >
@@ -311,5 +309,52 @@ formats, including SVG, PDF, and JPEG.
 > > {: .language-python}
 > {: .solution}
 {: .challenge}
+
+What about data stored in other types of files? Scientific data is often stored in
+[NetCDF](https://en.wikipedia.org/wiki/NetCDF) files. We can also read these files
+easily with python, but we use to use a different library
+
+In this file, surfaceU is ....... 
+
+## more blurb for background? Lucy?
+
+~~~
+import netCDF4 as nc
+~~~
+{: .language-python}
+
+We can then import a netCDF file, and check to see what python thinks its type is:
+
+~~~
+globaldata = nc.Dataset("surfaceU.nc")
+print(type(globaldata))
+~~~
+{: .language-python}
+
+~~~
+<class 'netCDF4._netCDF4.Dataset'>
+~~~
+{: .output}
+
+We can use Matplotlib to display a global map of data of ....
+
+~~~
+matplotlib.pyplot.imshow(globaldata["hs_avg"][0], extent=[-180,180,-90,90], origin='lower')
+~~~
+{: .language-python}
+
+![desciption.](../fig/global_surfaceu.svg)
+
+NetCDF files can be quite complex, and normally consist of a number of variables stored as 2D or 3D arrays. `globaldata["hs_avg"]`
+is getting a variable called *hs_avg*, which is of type `netCDF4._netCDF4.Variable` (the full list of variables stored can be listed with
+`gdata.variables.keys()`). We can use the first element of `globaldata["hs_avg"]` to plot the global map using the `imshow()` function.
+Although the type of this element is `numpy.ma.core.MaskedArray`, the `imshow()` function can natively use this variable type as input.
+We then need to specify that the data axes of the plot need to go from -180 to 180 on the x-axis, and -90 to 90 on the y-axis. We also use
+`origin='lower'` to stop the map being displayed upside down, because we want the map being plotted from the bottom-left, rather than the top-left 
+which is the default for plotting matrix-type data (because this is where `[0:0]` normally is).
+
+# do you think we need to show any other functionality? Or could we write a whole new episode for the intermediate course on NetCDF files?
+
+# lucy: why does plt.imshow(gdata["hs_avg"][0,:,:]) show nice colours, but plt.imshow(gdata["hs_avg"][0,:,:].data) not?
 
 {% include links.md %}

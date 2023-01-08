@@ -21,7 +21,8 @@ steps manually.
 The rendered version of the lesson is available at:
 <https://edcarp.github.io/python-novice-esces/>.
 
-The Analaysis of Inflammation Data lesson, from which this lesson is derived, is also available in [R][R] and [MATLAB][MATLAB].
+This lesson is derived from the [Analaysis of Inflammation Data lesson](inflammation_lesson). [Neil Chue Hong](npch), [Chris Wood](chris_wood), [Lucy Bricheno](lucy_b), and [Daniel Barker](daniel_b) were awarded a [NERC Advanced Short Training Course Grant](nerc_grant) to run Software Carpentry Courses specifically for
+NERC domain scientists, to include providing domain-specific examples. The wave-height data was provided by Lucy Bricheno.
 
 ## Episodes
 
@@ -52,14 +53,9 @@ We'd like to ask you to familiarize yourself with our [Contribution Guide](CONTR
 and have a look at the [more detailed guidelines][lesson-example] on proper formatting,
 ways to render the lesson locally, and even how to write new episodes!
 
-## Maintainers
+## Maintainer
 
-Lesson maintainers are [Trevor Bekolay][trevor_bekolay], [Maxim Belkin][maxim_belkin],
-[Anne Fouilloux][anne_fouilloux], [Lauren Ko][lauren_ko], [Valentina Staneva][valentina_staneva],
-and [creator][swc_history] of Software Carpentry: [Greg Wilson][greg_wilson].
-
-## Authors
-A list of contributors to the lesson can be found in [AUTHORS](AUTHORS).
+The lesson maintainer is [Chris Wood][chris_wood].
 
 ## License
 Instructional material from this lesson is made available under the
@@ -83,7 +79,11 @@ teaching foundational computational and data science skills to researchers in ac
 industry and government. More information can be found [here][cp-about].
 
 [lesson-example]: https://carpentries.github.io/lesson-example
-[anne_fouilloux]: https://github.com/annefou
+[chris_wood]: https://github.com/wood-chris
+[npch]: https://github.com/npch
+[lucy_b]: https://github.com/bricheno
+[daniel_b]: https://github.com/phylolvb
+[nerc_grant]: http://gotw.nerc.ac.uk/list_full.asp?pcode=NE%2FX009211%2F1
 [lauren_ko]: https://github.com/ldko
 [maxim_belkin]: https://github.com/maxim-belkin
 [mike_trizna]: https://github.com/MikeTrizna
@@ -121,3 +121,4 @@ industry and government. More information can be found [here][cp-about].
 [mit-license]: https://opensource.org/licenses/mit-license.html
 [cc-by-human]: https://creativecommons.org/licenses/by/4.0/
 [cc-by-legal]: https://creativecommons.org/licenses/by/4.0/legalcode
+[inflammation_lesson]: https://github.com/swcarpentry/python-novice-inflammation

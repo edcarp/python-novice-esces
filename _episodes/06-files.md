@@ -94,7 +94,7 @@ waves-00.csv
 
 ![Output from the first iteration of the for loop. Three line graphs showing the daily average,
 maximum and minimum inflammation over a 40-day period for all patients in the first dataset.](
-../fig/03-loop_49_1.png)
+../fig/waves_loop_1.svg)
 
 ~~~
 waves-10s.csv
@@ -103,7 +103,7 @@ waves-10s.csv
 
 ![Output from the second iteration of the for loop. Three line graphs showing the daily average,
 maximum and minimum inflammation over a 40-day period for all patients in the second
-dataset.](../fig/03-loop_49_3.png)
+dataset.](../fig/waves_loop_2.svg)
 
 ~~~
 waves-80s.csv
@@ -112,8 +112,54 @@ waves-80s.csv
 
 ![Output from the third iteration of the for loop. Three line graphs showing the daily average,
 maximum and minimum inflammation over a 40-day period for all patients in the third
-dataset.](../fig/03-loop_49_5.png)
+dataset.](../fig/waves_loop_3.svg)
 
+> ## Different types of division
+>
+> You might have noticed that we calculated the number of years when reshaping the data, rather
+> than using 10 for each decade. This was useful here because the file containing data from the 2010s 
+> only has data from 6 years, but each one of these years did contain data for every month. If any year had missing data
+> from any month, we would have needed to have done some additional preprocessing.
+> 
+> When we divided by 12 to get the number of years, we used `//` - you might have expected us just to use `/`.
+> Python creates a float as a result from a division operation using `/`, even if both inputs are integers:
+>
+> ~~~
+> type(10/2)
+> ~~~
+> {: .language-python}
+>
+> ~~~
+> float
+> ~~~
+> {: .output}
+> 
+> However, if you use a float value as an array index, you get an error (even if it refers to a whole number).
+> `//` is Python's integer division operator - meaning that the result will always be an integer:
+>
+> ~~~
+> type(10//2)
+> ~~~
+> {: .language-python}
+>
+> ~~~
+> int
+> ~~~
+> {: .output}
+>
+> If the result would normally result in a floating-point number, the actual result will instead be an integer rounded towards minus infinity:
+>
+> ~~~
+> print(19/4)
+> print(19//4)
+> ~~~
+> {: .language-python}
+>
+> ~~~
+> 4.75
+> 4
+> ~~~
+> {: .output}
 
 The plots generated for the second clinical trial file look very similar to the plots for
 the first file: their average plots show similar "noisy" rises and falls; their maxima plots
@@ -124,6 +170,8 @@ The third dataset shows much noisier average and maxima plots that are far less 
 the first two datasets, however the minima plot shows that the third dataset minima is
 consistently zero across every day of the trial. If we produce a heat map for the third data file
 we see the following:
+
+# FAO Lucy: I haven't created a new heatmap here yet - let me know what you think we should show here and I'll create it
 
 ![Heat map of the third inflammation dataset. Note that there are sporadic zero values throughout
 the entire dataset, and the last patient only has zero values over the 40 day study.
@@ -137,9 +185,8 @@ flare-ups at all throughout the trial, suggesting that they may not even suffer 
 
 > ## Plotting Differences
 >
-> Plot the difference between the average inflammations reported in the first and second datasets
-> (stored in `inflammation-01.csv` and `inflammation-02.csv`, correspondingly),
-> i.e., the difference between the leftmost plots of the first two figures.
+> Plot the difference between the average monthly waveheights in the 1980s and 1990s
+> Can you do this using glob, without specifying the filenames directly in the code?
 >
 > > ## Solution
 > > ~~~
@@ -147,10 +194,18 @@ flare-ups at all throughout the trial, suggesting that they may not even suffer 
 > > import numpy
 > > import matplotlib.pyplot
 > >
-> > filenames = sorted(glob.glob('inflammation*.csv'))
+> > filenames = sorted(glob.glob('waves_*.csv'))
 > >
-> > data0 = numpy.loadtxt(fname=filenames[0], delimiter=',')
-> > data1 = numpy.loadtxt(fname=filenames[1], delimiter=',')
+> > data0 = numpy.loadtxt(fname=filenames[2], delimiter=',')
+> > data1 = numpy.loadtxt(fname=filenames[3], delimiter=',')
+> >
+> > number_of_rows0 = data0.shape[0]
+> > number_of_years0 = number_of_rows0//12 
+> > data0 = numpy.reshape(data0[:,2], [number_of_years0,12])
+> >
+> > number_of_rows1 = data1.shape[0]
+> > number_of_years1 = number_of_rows1//12 
+> > data1 = numpy.reshape(data1[:,2], [number_of_years1,12])
 > >
 > > fig = matplotlib.pyplot.figure(figsize=(10.0, 3.0))
 > >
@@ -163,6 +218,9 @@ flare-ups at all throughout the trial, suggesting that they may not even suffer 
 > > {: .language-python}
 > {: .solution}
 {: .challenge}
+
+# FAO Lucy: as it stands, creating composite stats exercise won't make any sense with our data in the same way (I don't think) - 
+# we could remove it, or come up with a new final exercise (although it doesn't really show anything not already shown) 
 
 > ## Generate Composite Statistics
 >

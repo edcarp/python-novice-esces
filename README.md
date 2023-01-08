@@ -14,22 +14,21 @@ programming such as automation with loops and encapsulation with functions,
 see [Best Practices for Scientific Computing][best-practices] and
 [Good enough practices in scientific computing][good-practices] to learn more.
 
-The example used in this lesson analyses a set of 12 files with simulated inflammation
-data collected from a trial for a new treatment for arthritis. Learners are shown
+The example used in this lesson analyses some model-generated waveheight data. Learners are shown
 how it is better to automate analysis using functions instead of repeating analysis
 steps manually.
 
 The rendered version of the lesson is available at:
-<https://swcarpentry.github.io/python-novice-inflammation/>.
+<https://edcarp.github.io/python-novice-esces/>.
 
-This lesson is also available in [R][R] and [MATLAB][MATLAB].
+The Analaysis of Inflammation Data lesson, from which this lesson is derived, is also available in [R][R] and [MATLAB][MATLAB].
 
 ## Episodes
 
 | # |  Episode | Time | Question(s) |
 |--:|:---------|:----:|:------------|
 | 1 | [Python Fundamentals][episode01] | 30 | What basic data types can I work with in Python?<br>How can I create a new variable in Python?<br>Can I change the value associated with a variable after I create it? |
-| 2 | [Analyzing Patient Data][episode02] | 60 | How can I process tabular data files in Python? |
+| 2 | [Analyzing Waveheight Data][episode02] | 60 | How can I process tabular data files in Python? |
 | 3 | [Visualizing Tabular Data][episode03] | 50 | How can I visualize tabular data in Python?<br>How can I group several plots together? |
 | 4 | [Storing Multiple Values in Lists][episode04] | 30 | How can I store many values together? |
 | 5 | [Repeating Actions with Loops][episode05] | 30 | How can I do the same operations on many different values? |
@@ -104,18 +103,18 @@ industry and government. More information can be found [here][cp-about].
 [slack_channel_url]: https://swcarpentry.slack.com/messages/C9Y0L6MF0
 [travis_svg]: https://travis-ci.org/swcarpentry/python-novice-inflammation.svg?branch=gh-pages
 [travis_url]: https://travis-ci.org/swcarpentry/python-novice-inflammation
-[episode01]: https://swcarpentry.github.io/python-novice-inflammation/01-intro/index.html
-[episode02]: https://swcarpentry.github.io/python-novice-inflammation/02-numpy/index.html
-[episode03]: https://swcarpentry.github.io/python-novice-inflammation/03-matplotlib/index.html
-[episode04]: https://swcarpentry.github.io/python-novice-inflammation/04-lists/index.html
-[episode05]: https://swcarpentry.github.io/python-novice-inflammation/05-loop/index.html
-[episode06]: https://swcarpentry.github.io/python-novice-inflammation/06-files/index.html
-[episode07]: https://swcarpentry.github.io/python-novice-inflammation/07-cond/index.html
-[episode08]: https://swcarpentry.github.io/python-novice-inflammation/08-func/index.html
-[episode09]: https://swcarpentry.github.io/python-novice-inflammation/09-errors/index.html
-[episode10]: https://swcarpentry.github.io/python-novice-inflammation/10-defensive/index.html
-[episode11]: https://swcarpentry.github.io/python-novice-inflammation/11-debugging/index.html
-[episode12]: https://swcarpentry.github.io/python-novice-inflammation/12-cmdline/index.html
+[episode01]: https://edcarp.github.io/python-novice-esces/01-intro/index.html
+[episode02]: https://edcarp.github.io/python-novice-esces/02-numpy/index.html
+[episode03]: https://edcarp.github.io/python-novice-esces/03-matplotlib/index.html
+[episode04]: https://edcarp.github.io/python-novice-esces/04-lists/index.html
+[episode05]: https://edcarp.github.io/python-novice-esces/05-loop/index.html
+[episode06]: https://edcarp.github.io/python-novice-esces/06-files/index.html
+[episode07]: https://edcarp.github.io/python-novice-esces/07-cond/index.html
+[episode08]: https://edcarp.github.io/python-novice-esces/08-func/index.html
+[episode09]: https://edcarp.github.io/python-novice-esces/09-errors/index.html
+[episode10]: https://edcarp.github.io/python-novice-esces/10-defensive/index.html
+[episode11]: https://edcarp.github.io/python-novice-esces/11-debugging/index.html
+[episode12]: https://edcarp.github.io/python-novice-esces/12-cmdline/index.html
 [community-initiatives]: https://communityin.org
 [cp-about]: https://carpentries.org/about
 [swc-about]: https://software-carpentry.org/about/

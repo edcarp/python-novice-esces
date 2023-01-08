@@ -33,9 +33,7 @@ print(glob.glob('wave*.csv'))
 {: .language-python}
 
 ~~~
-['wave_2012.txt', 'wave_2006.txt', 'wave_2007.txt', 'wave_2013.txt',
-'wave_2011.txt', 'wave_2010.txt', 'wave_2014.txt', 'wave_2015.txt',
-'wave_2009.txt', 'wave_2008.txt']
+['waves_10s.csv', 'waves_00s.csv', 'waves_80s.csv', 'waves_90s.csv']
 ~~~
 {: .output}
 

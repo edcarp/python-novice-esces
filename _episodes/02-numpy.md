@@ -70,8 +70,7 @@ The expression `numpy.loadtxt(...)` is a
 [function call]({{ page.root }}/reference.html#function-call)
 that asks Python to run the [function]({{ page.root }}/reference.html#function) `loadtxt` which
 belongs to the `numpy` library.
-The dot notation in Python is used most of all as an object attribute/property specifier or for invoking its method. `object.property` will give you the object.property value,
-`object_name.method()` will invoke on object_name method.
+The dot notation in Python is used most of all as an object attribute/property specifier or for invoking its method. `object.property` will give you the object.property value, `object_name.method()` will invoke on object_name method.
 
 As an example, John Smith is the John that belongs to the Smith family.
 We could use the dot notation to write his name `smith.john`,
@@ -81,7 +80,7 @@ just as `loadtxt` is a function that belongs to the `numpy` library.
 we want to read and the [delimiter]({{ page.root }}/reference.html#delimiter) that separates values
 on a line. These both need to be character strings
 (or [strings]({{ page.root }}/reference.html#string) for short), so we put them in quotes. Notice
-that we also had to tell `Numpy` to skip the first row, which contains the column titles. 
+that we also had to tell NumPy to skip the first row, which contains the column titles. 
 
 Since we haven't told it to do anything else with the function's output,
 the [notebook]({{ page.root }}/reference.html#notebook) displays it.
@@ -181,10 +180,8 @@ print(data.shape)
 ~~~
 {: .output}
 
-The output tells us that the `data` array variable contains 444 rows (sanity check:  
-37 years of 12 months = 37 * 12 = 444) and 3 columns (year, month, and datapoint).
-When we
-created the variable `data` to store our arthritis data, we did not only create the array; we also
+The output tells us that the `data` array variable contains 444 rows (sanity check:  37 years of 12 months = 37 * 12 = 444) and 3 columns
+ (year, month, and datapoint). When we created the variable `data` to store our arthritis data, we did not only create the array; we also
 created information about the array, called [members]({{ page.root }}/reference.html#member) or
 attributes. This extra information describes `data` in the same way an adjective describes a noun.
 `data.shape` is an attribute of `data` which describes the dimensions of `data`. We use the same
@@ -217,8 +214,8 @@ middle value in data: 2.446
 {: .output}
 
 The expression `data[222, 2]` accesses the element at row 222, column 2. While this expression may
-not surprise you,
- `data[0, 2]` might to get the _3rd_ column in the _1st_ row might.
+not surprise you, using
+ `data[0, 2]` to get the _3rd_ column in the _1st_ row might.
 Programming languages like Fortran, MATLAB and R start counting at 1
 because that's what human beings have done for thousands of years.
 Languages in the C family (including C++, Java, Perl, and Python) count from 0
@@ -318,7 +315,7 @@ print('data from first year is:')
 print(first_year)
 ~~~
 {: .language-python}
-The above example selects rows 0 through 1 (i.e. 0th and 1st) and columns 5 through to the end of the array.
+The above example selects rows 0 through 11 and columns 2 through to the end of the array (which in this case is _only_ the last column).
 
 ~~~
 data from first hour is:
@@ -349,14 +346,27 @@ print(numpy.mean(data))
 {: .language-python}
 
 ~~~
-6.14875
+668.9611876876877
 ~~~
 {: .output}
 
 `mean` is a [function]({{ page.root }}/reference.html#function) that takes
 an array as an [argument]({{ page.root }}/reference.html#argument). Given that our
-array contains date and time information as well as data, taking the mean of the
+array contains year and month information as well as data, taking the mean of the
 whole array doesn't really make much sense!
+
+We can use slicing to calculate a more sensible mean:
+
+~~~
+print(numpy.mean(data[:,2]))
+~~~
+{: .language-python}
+
+~~~
+3.383563063063063
+~~~
+{: .output}
+
 
 > ## Not All Functions Have Input
 >
@@ -381,7 +391,7 @@ whole array doesn't really make much sense!
 > to tell Python to go and do something for us.
 {: .callout}
 
-Let's use three other NumPy functions to get some descriptive values about the dataset as a whole.
+Let's use three other NumPy functions to get some descriptive values about the waveheights.
 We'll also use multiple assignment,
 a convenient Python feature that will enable us to do this all in one line.
 
@@ -395,7 +405,7 @@ print('Wave height standard deviation:', stdval)
 {: .language-python}
 
 Here we've assigned the return value from `numpy.max(data[:,2])` to the variable `maxval`, the value
-from `numpy.min(data[:,2])` to `minval`, and so on. Note that we used `maxval`, rather than just `max` - its'
+from `numpy.min(data[:,2])` to `minval`, and so on. Note that we used `maxval`, rather than just `max` - it's
 not good practice to use variable names that are the same as [Python keywords](https://docs.python.org/3/reference/lexical_analysis.html#keywords)
 or fuction names.  
 
@@ -423,19 +433,43 @@ Wave height standard deviation: 1.1440155050316319
 {: .callout}
 
 > ## What about NaNs?
+> 
+> In real datasets, particularly ones which come from observational data, it's quite common
+> for some values to be missing. There are various strategies to deal with missing values; one of which is to
+> give them a value that would be clearly wrong (e.g. -1 for a temperature column with units in  
+> Kelvin, or 999 for a missing latitude or longitude value). However, the issue with this is that 
+> we would need to check for these values before calculating any summary statistic.
 >
-> How did we know what functions NumPy has and how to use them?
-> If you are working in IPython or in a Jupyter Notebook, there is an easy way to find out.
-> If you type the name of something followed by a dot, then you can use
-> [tab completion]({{ page.root }}/reference.html#tab-completion)
-> (e.g. type `numpy.` and then press <kbd>Tab</kbd>)
-> to see a list of all functions and attributes that you can use. After selecting one, you
-> can also add a question mark (e.g. `numpy.cumprod?`), and IPython will return an
-> explanation of the method! This is the same as doing `help(numpy.cumprod)`.
-> Similarly, if you are using the "plain vanilla" Python interpreter, you can type `numpy.`
-> and press the <kbd>Tab</kbd> key twice for a listing of what is available. You can then use the
-> `help()` function to see an explanation of the function you're interested in,
-> for example: `help(numpy.cumprod)`.
+> Instead, we can use NumPy's `NaN` ("not a number") value, which will tell NumPy that these are 
+> values that need to be dealt with in a special manner. NumPy also provides various functions to help deal with NaNs.
+> However, we can't use NumPy's normal statistical functions on any array that contains a NaN, as this returns a NaN:
+> 
+> ~~~
+> data = numpy.array([[1,2,3],[1,numpy.NaN,3],[1,2,3]])
+> numpy.mean(data)
+> ~~~
+> {: .language-python}
+>
+> ~~~
+> nan
+> ~~~
+> {: .output}
+> 
+> Instead, we need to use the NumPy function `nanmean`:
+>
+> ~~~
+> data = numpy.array([[1,2,3],[1,numpy.NaN,3],[1,2,3]])
+> numpy.nanmean(data)
+> ~~~
+> {: .language-python}
+>
+> ~~~
+> 2.0
+> ~~~
+> {: .output}
+>
+> If, at a later date, we'd like to replace all the NaNs with a sensible numerical value
+> (e.g. the mean of the column), NumPy also provides functions that can with this
 {: .callout}
 
 What happens if the _shape_ of the data is not convenient for us to do some of our analysis? With this 
@@ -480,18 +514,23 @@ The standard deviation of the reshaped data is: 1.1440155050316319
 
 > ## Printing text
 >
-> How did we know what functions NumPy has and how to use them?
-> If you are working in IPython or in a Jupyter Notebook, there is an easy way to find out.
-> If you type the name of something followed by a dot, then you can use
-> [tab completion]({{ page.root }}/reference.html#tab-completion)
-> (e.g. type `numpy.` and then press <kbd>Tab</kbd>)
-> to see a list of all functions and attributes that you can use. After selecting one, you
-> can also add a question mark (e.g. `numpy.cumprod?`), and IPython will return an
-> explanation of the method! This is the same as doing `help(numpy.cumprod)`.
-> Similarly, if you are using the "plain vanilla" Python interpreter, you can type `numpy.`
-> and press the <kbd>Tab</kbd> key twice for a listing of what is available. You can then use the
-> `help()` function to see an explanation of the function you're interested in,
-> for example: `help(numpy.cumprod)`.
+> Earlier on in the episide, we just printed text in one print statement, and output
+> in a different print statement. However, in the last example, we printed text and 
+> output in the same print statement. Python has several ways to achieve this, but the
+> way we just used is the most modern, and is formally called ["Formatted string literals"](https://docs.python.org/3/tutorial/inputoutput.html#formatted-string-literals), 
+> but more commonly called "f-strings". We need to prefix the string with the letter 'f', but then
+> anything within curly brackets is interpreted by python:
+>
+> ~~~
+> name = 'Chris'
+> city = 'Edinburgh'
+> print(f"Hello, My name is {name} and I live in {city}.")
+> ~~~
+> {: .language-python}
+>
+> F-strings can be used in most cases where we want to print outut with text, but
+> there are some advanced edge-cases where the more verbose [string formatting](https://docs.python.org/3/tutorial/inputoutput.html#the-string-format-method)
+> still needs to be used
 {: .callout}
 
 We can now look variations in some summary statistics, such as the maximum inflammation per patient or the average inflammation per day more easily. One way to do this is to create a new temporary array of the data we want, then ask it to do the calculation:

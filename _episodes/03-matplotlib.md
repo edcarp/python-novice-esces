@@ -52,17 +52,8 @@ matplotlib.pyplot.show()
 
 ![Heat map representing the wave height from the first 50 days. Each cell is colored by value along a color gradient from blue to yellow.](../fig/monthly_wavedata-imshow.png)
 
-Each row in the heat map corresponds to a patient in the clinical trial dataset, and each column
-corresponds to a day in the dataset.  Blue pixels in this heat map represent low values, while
-yellow pixels represent high values.  As we can see, the general number of inflammation flare-ups
-for the patients rises and falls over a 40-day period.
-
-So far so good as this is in line with our knowledge of the clinical trial and Dr. Maverick's
-claims:
-
-* the patients take their medication once their inflammation flare-ups begin
-* it takes around 3 weeks for the medication to take effect and begin reducing flare-ups
-* and flare-ups appear to drop to zero by the end of the clinical trial.
+Each row in the heat map corresponds to a year in the dataset, and each column corresponds to a month.  Blue pixels in this heat map represent low values, while
+yellow pixels represent high values. We can see low blue values in the middle (summer) months, and higher waves at the start and end of the year. This demonstrates that there is a seasonal cycle present. With calm summers bringing lower waves, and windy winters generating big waves. There are still differences year to year, with some stormier summers and calmer winters.
 
 Now let's take a look at the average wave-height per month over time:
 
@@ -73,13 +64,14 @@ matplotlib.pyplot.show()
 ~~~
 {: .language-python}
 
-![A line graph showing the average inflammation across all patients over a 40-day period.](../fig/monthly_wavedata-average.png)
+![A line graph showing the monthly average wave height over a 37 year period.](../fig/monthly_wavedata-average.png)
 
-Here, we have put the average inflammation per day across all patients in the variable
-`ave_inflammation`, then asked `matplotlib.pyplot` to create and display a line graph of those
-values.  The result is a reasonably linear rise and fall, in line with Dr. Maverick's claim that
-the medication takes 3 weeks to take effect.  But a good data scientist doesn't just consider the
-average of a dataset, so let's have a look at two other statistics:
+This is a good way to smooth out variability, and see what is called a 'climatology' representing the long-term wave climate over several years or decades.
+
+Here, we have put the average wave heights per month across all yeara in the data
+`ave_waveheight`, then asked `matplotlib.pyplot` to create and display a line graph of those
+values.  The result is a smooth seasonal cycle, with a maximum in month 0 (January) and minimum in month 6 (July). 
+But a good data scientist doesn't just consider the average of a dataset, so let's have a look at two other statistics:
 
 ~~~
 max_plot = matplotlib.pyplot.plot(numpy.max(data, axis=0))
@@ -87,7 +79,7 @@ matplotlib.pyplot.show()
 ~~~
 {: .language-python}
 
-![A line graph showing the maximum inflammation across all patients over a 40-day period.](../fig/monthly_wavedata-max.png)
+![A line graph showing the maximum wave height over a 37 year period.](../fig/monthly_wavedata-max.png)
 
 ~~~
 min_plot = matplotlib.pyplot.plot(numpy.min(data, axis=1))
@@ -95,11 +87,11 @@ matplotlib.pyplot.show()
 ~~~
 {: .language-python}
 
-![A line graph showing the minimum inflammation across all patients over a 40-day period.](../fig/monthly_wavedata-min.png)
+![A line graph showing the minimum wave height over a 37 year period.](../fig/monthly_wavedata-min.png)
 
-The maximum value rises and falls linearly, while the minimum seems to be a step function.
-Neither trend seems particularly likely, so either there's a mistake in our calculations or
-something is wrong with our data. This insight would have been difficult to reach by examining
+The minimum and maximum graphs show the large spread of all possible wave heights throughout the dataset. There is still a seasonal cycle, but less clear as the extremes are much less smooth. The maximum wave heights can reach a massive 7 metres, and even in the summer the maximum is 4.5m (around the height of a double decker bus!) The minimum values are more similar throughout the year, varying between 1.5 and 2.5 metres. 
+
+Plotting the data in this way, allows us to get a broad picture of the wave climate, without having to examine
 the numbers themselves without visualization tools.
 
 ### Grouping plots
@@ -314,9 +306,7 @@ What about data stored in other types of files? Scientific data is often stored 
 [NetCDF](https://en.wikipedia.org/wiki/NetCDF) files. We can also read these files
 easily with python, but we use to use a different library
 
-In this file, surfaceU is ....... 
-
-## more blurb for background? Lucy?
+We will again use data describing sea waves, but this time looking at a spatial map. This data set shows a static world map, containing data with the multi-year average wave climate. Again, hs_avg is the wave height in metres. But this time, the shape of the matrix is latitude x longitude
 
 ~~~
 import netCDF4 as nc
@@ -326,7 +316,7 @@ import netCDF4 as nc
 We can then import a netCDF file, and check to see what python thinks its type is:
 
 ~~~
-globaldata = nc.Dataset("surfaceU.nc")
+globaldata = nc.Dataset("multyear_hs_avg.nc")
 print(type(globaldata))
 ~~~
 {: .language-python}
@@ -336,10 +326,10 @@ print(type(globaldata))
 ~~~
 {: .output}
 
-We can use Matplotlib to display a global map of data of ....
+We can use Matplotlib to display this data set as a world map. The data go from -90 degrees (south pole) to +90 degrees (north pole) in the y direction. In the x-direction the data go from 0 to 360 degrees East, starting at the Greenwich meridian. The white areas are land, because we have no data there to plot.
 
 ~~~
-matplotlib.pyplot.imshow(globaldata["hs_avg"][0], extent=[-180,180,-90,90], origin='lower')
+matplotlib.pyplot.imshow(globaldata["hs_avg"][0], extent=[0 360,-90,90], origin='lower')
 ~~~
 {: .language-python}
 
@@ -349,11 +339,13 @@ NetCDF files can be quite complex, and normally consist of a number of variables
 is getting a variable called *hs_avg*, which is of type `netCDF4._netCDF4.Variable` (the full list of variables stored can be listed with
 `gdata.variables.keys()`). We can use the first element of `globaldata["hs_avg"]` to plot the global map using the `imshow()` function.
 Although the type of this element is `numpy.ma.core.MaskedArray`, the `imshow()` function can natively use this variable type as input.
-We then need to specify that the data axes of the plot need to go from -180 to 180 on the x-axis, and -90 to 90 on the y-axis. We also use
+
+We then need to specify that the data axes of the plot need to go from 0 to 360 on the x-axis, and -90 to 90 on the y-axis. We also use
 `origin='lower'` to stop the map being displayed upside down, because we want the map being plotted from the bottom-left, rather than the top-left 
 which is the default for plotting matrix-type data (because this is where `[0:0]` normally is).
 
 # do you think we need to show any other functionality? Or could we write a whole new episode for the intermediate course on NetCDF files?
+Example: read off the value at a specified lat/lon (or nearest neighbour). That would be helpful as a way to 'search' the dataset
 
 # lucy: why does plt.imshow(gdata["hs_avg"][0,:,:]) show nice colours, but plt.imshow(gdata["hs_avg"][0,:,:].data) not?
 

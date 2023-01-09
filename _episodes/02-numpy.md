@@ -139,11 +139,8 @@ print(type(data))
 ~~~
 {: .output}
 
-The output tells us that `data` currently refers to
-an N-dimensional array, the functionality for which is provided by the NumPy library.
-These data correspond to arthritis patients' inflammation.
-The rows are the individual patients, and the columns
-are their daily inflammation measurements.
+The output tells us that `data` currently refers to an N-dimensional array, the functionality for which is provided by the NumPy library.
+These data correspond to sea wave height. Each row is a monthly average, and the columns are their associated dates and values.
 
 > ## Data Type
 >
@@ -181,7 +178,7 @@ print(data.shape)
 {: .output}
 
 The output tells us that the `data` array variable contains 444 rows (sanity check:  37 years of 12 months = 37 * 12 = 444) and 3 columns
- (year, month, and datapoint). When we created the variable `data` to store our arthritis data, we did not only create the array; we also
+ (year, month, and datapoint). When we created the variable `data` to store our wave data, we did not only create the array; we also
 created information about the array, called [members]({{ page.root }}/reference.html#member) or
 attributes. This extra information describes `data` in the same way an adjective describes a noun.
 `data.shape` is an attribute of `data` which describes the dimensions of `data`. We use the same
@@ -318,7 +315,7 @@ print(first_year)
 The above example selects rows 0 through 11 and columns 2 through to the end of the array (which in this case is _only_ the last column).
 
 ~~~
-data from first hour is:
+data from first year is:
 [[3.788]
  [3.768]
  [4.774]
@@ -337,8 +334,8 @@ data from first hour is:
 ## Analyzing data
 
 NumPy has several useful functions that take an array as input to perform operations on its values.
-If we want to find the average inflammation for all patients on
-all days, for example, we can ask NumPy to compute `data`'s mean value:
+If we want to find the average wave height for all months on
+all years, for example, we can ask NumPy to compute `data`'s mean value:
 
 ~~~
 print(numpy.mean(data))
@@ -353,9 +350,9 @@ print(numpy.mean(data))
 `mean` is a [function]({{ page.root }}/reference.html#function) that takes
 an array as an [argument]({{ page.root }}/reference.html#argument). Given that our
 array contains year and month information as well as data, taking the mean of the
-whole array doesn't really make much sense!
+whole array doesn't really make much sense - we don't expect to see 600 metre high waves!
 
-We can use slicing to calculate a more sensible mean:
+We can use slicing to calculate the correct mean:
 
 ~~~
 print(numpy.mean(data[:,2]))
@@ -391,7 +388,7 @@ print(numpy.mean(data[:,2]))
 > to tell Python to go and do something for us.
 {: .callout}
 
-Let's use three other NumPy functions to get some descriptive values about the waveheights.
+Let's use three other NumPy functions to get some descriptive values about the wave heights.
 We'll also use multiple assignment,
 a convenient Python feature that will enable us to do this all in one line.
 
@@ -533,7 +530,7 @@ The standard deviation of the reshaped data is: 1.1440155050316319
 > still needs to be used
 {: .callout}
 
-We can now look variations in some summary statistics, such as the maximum inflammation per patient or the average inflammation per day more easily. One way to do this is to create a new temporary array of the data we want, then ask it to do the calculation:
+We can now look variations in some summary statistics, such as the maximum wave height per month, or average inflammation per year more easily. One way to do this is to create a new temporary array of the data we want, then ask it to do the calculation:
 
 ~~~
 year_0 = reshaped_data[0,:] # 0 on the first axis (rows), everything on the second (columns)
@@ -555,22 +552,22 @@ programmers or their future selves.
 Instead, we can combine the selection and the function call:
 
 ~~~
-print('maximum inflammation for patient 2:', numpy.max(data[2, :]))
+print('maximum wave height for year 2:', numpy.max(data[2, :]))
 ~~~
 {: .language-python}
 
 ~~~
-maximum inflammation for patient 2: 19.0
+maximum wave height for year 2: 19.0
 ~~~
 {: .output} -->
 
-What if we need the maximum inflammation for each patient over all days (as in the
+What if we need the maximum wave height for each month over all years (as in the
 next diagram on the left) or the average for each day (as in the
 diagram on the right)? As the diagram below shows, we want to perform the
 operation across an axis:
 
-![Per-patient maximum inflammation is computed row-wise across all columns using
-numpy.max(data, axis=1). Per-day average inflammation is computed column-wise across all rows using
+![Per-year maximum inflammation is computed row-wise across all columns using
+numpy.max(data, axis=1). Per-year average wave height is computed column-wise across all rows using
 numpy.mean(data, axis=0).](../fig/python-operations-across-axes.png)
 
 To support this functionality,
@@ -602,7 +599,7 @@ print(numpy.mean(data, axis=0).shape)
 {: .output}
 
 The expression `(12,)` tells us we have an N×1 vector,
-so this is the average inflammation per day for all patients.
+so this is the average wave height per month for all years.
 If we average across axis 1 (columns in our 2D example), we get:
 
 ~~~
@@ -621,7 +618,7 @@ print(numpy.mean(reshaped_data, axis=1))
 ~~~
 {: .output}
 
-which is the average inflammation per patient across all days.
+which is the average wave height per month across all years.
 
 
 > ## Slicing Strings
@@ -705,7 +702,7 @@ which is the average inflammation per patient across all days.
 > The expression `element[3:3]` produces an
 > [empty string]({{ page.root }}/reference.html#empty-string),
 > i.e., a string that contains no characters.
-> If `data` holds our array of patient data,
+> If `data` holds our array of wave data,
 > what does `data[3:3, 4:4]` produce?
 > What about `data[3:3, :]`?
 >
@@ -810,6 +807,7 @@ which is the average inflammation per patient across all days.
 > {: .solution}
 {: .challenge}
 
+## FOR CHIRS - this section is not relevent
 > ## Change In Inflammation
 >
 > The patient data is _longitudinal_ in the sense that each row represents a

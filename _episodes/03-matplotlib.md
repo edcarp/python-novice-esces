@@ -214,10 +214,7 @@ formats, including SVG, PDF, and JPEG.
 > {: .solution}
 {: .challenge}
 
-CHRIS - change to 3 line plots and a legend in a single panel
-show them drawing styles different colour / dashed lines
-
-> ## Drawing Straight Lines
+> ## Plotting multiple graphs on one pair of axes 
 >
 > We can also plot more than one dataset on a single pair of axes, and Matplotlib gives us lots of control over
 > the output. Can you plot the maximum, minimum, and mean all on the same axes, change the colour and marker used for each of the plots,
@@ -240,8 +237,8 @@ show them drawing styles different colour / dashed lines
 > > matplotlib.pyplot.show()
 > > ~~~
 > > {: .language-python}
-> ![Three line graphs, with step lines connecting the points, showing the daily average, maximum
- and minimum inflammation over a 40-day period.](../fig/inflammation-01-line-styles.svg)
+> ![Three plots showing the average, maximum
+ and minimum waveheights plotted on a single pair of axes.](../fig/monthly_wavedata-overlay.svg)
 > {: .solution}
 {: .challenge}
 

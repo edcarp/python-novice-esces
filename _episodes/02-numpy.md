@@ -187,7 +187,7 @@ they have the same part-and-whole relationship.
 
 If we want to get a single number from the array, we must provide an
 [index]({{ page.root }}/reference.html#index) in square brackets after the variable name, just as we
-do in math when referring to an element of a matrix.  Our inflammation data has two dimensions, so
+do in math when referring to an element of a matrix.  Our wave data has two dimensions, so
 we will need to use two indices to refer to one specific value:
 
 ~~~
@@ -530,7 +530,7 @@ The standard deviation of the reshaped data is: 1.1440155050316319
 > still needs to be used
 {: .callout}
 
-We can now look variations in some summary statistics, such as the maximum wave height per month, or average inflammation per year more easily. One way to do this is to create a new temporary array of the data we want, then ask it to do the calculation:
+We can now look variations in some summary statistics, such as the maximum wave height per month, or average height per year more easily. One way to do this is to create a new temporary array of the data we want, then ask it to do the calculation:
 
 ~~~
 year_0 = reshaped_data[0,:] # 0 on the first axis (rows), everything on the second (columns)
@@ -566,7 +566,7 @@ next diagram on the left) or the average for each day (as in the
 diagram on the right)? As the diagram below shows, we want to perform the
 operation across an axis:
 
-![Per-year maximum inflammation is computed row-wise across all columns using
+![Per-year maximum height is computed row-wise across all columns using
 numpy.max(data, axis=1). Per-year average wave height is computed column-wise across all rows using
 numpy.mean(data, axis=0).](../fig/python-operations-across-axes.png)
 
@@ -807,18 +807,16 @@ which is the average wave height per month across all years.
 > {: .solution}
 {: .challenge}
 
-## FOR CHIRS - this section is not relevent
-> ## Change In Inflammation
+> ## Change In Wave Height
 >
-> The patient data is _longitudinal_ in the sense that each row represents a
-> series of observations relating to one individual.  This means that
-> the change in inflammation over time is a meaningful concept.
+> In the wave data, one row represents a series of monthly data relating to one year.  This means that
+> the change in height over time is a meaningful concept. Representing how the wave change seasonally
 > Let's find out how to calculate changes in the data contained in an array
 > with NumPy.
 >
 > The `numpy.diff()` function takes an array and returns the differences
 > between two successive values. Let's use it to examine the changes
-> each day across the first 6 months of patient 3 from our inflammation dataset.
+> each day across the first 6 months of waves in year 3 from our dataset.
 >
 > ~~~
 > year3_1sthalf = reshaped_data[3, :6]
@@ -851,14 +849,15 @@ which is the average wave height per month across all years.
 > {: .output}
 >
 > Note that the array of differences is shorter by one element (length 5).
+> Where we see a negative change in wave height, it shows that the sea is becoming calmer as we move towards the summer.
 >
 > When calling `numpy.diff` with a multi-dimensional array, an `axis` argument may
 > be passed to the function to specify which axis to process. When applying
-> `numpy.diff` to our 2D inflammation array `reshaped_data`, which axis would we specify?
->
+> `numpy.diff` to our 2D wave height array `reshaped_data`, which axis would we specify?
+
 > > ## Solution
-> > Since the row axis (0) is patients, it does not make sense to get the
-> > difference between two arbitrary patients. The column axis (1) is in
+> > Since the column axis (0) is years, it does not make much sense to get the
+> > difference between two arbitrary years. The column axis (1) is in
 > > days, so the difference is the change in inflammation -- a meaningful
 > > concept.
 > >
@@ -877,12 +876,12 @@ which is the average wave height per month across all years.
 > > columns than there are columns in the data.
 > {: .solution}
 >
-> How would you find the largest change in inflammation for each patient? Does
-> it matter if the change in inflammation is an increase or a decrease?
+> How would you find the largest change in wave height from month to month? 
+> What does it mean if the change in height is an increase or a decrease?
 >
 > > ## Solution
 > > By using the `numpy.max()` function after you apply the `numpy.diff()`
-> > function, you will get the largest difference between days.
+> > function, you will get the largest difference between months.
 > >
 > > ~~~
 > > numpy.max(numpy.diff(data, axis=1), axis=1)
@@ -899,7 +898,7 @@ which is the average wave height per month across all years.
 > > ~~~
 > > {: .language-python}
 > >
-> > If inflammation values *decrease* along an axis, then the difference from
+> > If wave height values *decrease* along an axis, then the difference from
 > > one element to the next will be negative. If
 > > you are interested in the **magnitude** of the change and not the
 > > direction, the `numpy.absolute()` function will provide that.

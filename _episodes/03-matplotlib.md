@@ -68,7 +68,7 @@ matplotlib.pyplot.show()
 
 This is a good way to smooth out variability, and see what is called a 'climatology' representing the long-term wave climate over several years or decades.
 
-Here, we have put the average wave heights per month across all yeara in the data
+Here, we have put the average wave heights per month across all years in the data
 `ave_waveheight`, then asked `matplotlib.pyplot` to create and display a line graph of those
 values.  The result is a smooth seasonal cycle, with a maximum in month 0 (January) and minimum in month 6 (July). 
 But a good data scientist doesn't just consider the average of a dataset, so let's have a look at two other statistics:
@@ -144,7 +144,7 @@ The call to `savefig` stores the plot as a graphics file. This can be
 a convenient way to store your plots for use in other documents, web
 pages etc. The graphics format is automatically determined by
 Matplotlib from the file name ending we specify; here PNG from
-'inflammation.png'. Matplotlib supports many different graphics
+'wavedata.png'. Matplotlib supports many different graphics
 formats, including SVG, PDF, and JPEG.
 
 > ## Importing libraries with shortcuts
@@ -211,8 +211,8 @@ formats, including SVG, PDF, and JPEG.
 > {: .solution}
 {: .challenge}
 
-
-#FAO LUCY: does this bit make any sense for our data? Can we still include a drawstyle example?
+CHRIS - change to 3 line plots and a legend in a single panel
+show them drawing styles different colour / dashed lines
 
 > ## Drawing Straight Lines
 >
@@ -308,6 +308,7 @@ easily with python, but we use to use a different library
 
 We will again use data describing sea waves, but this time looking at a spatial map. This data set shows a static world map, containing data with the multi-year average wave climate. Again, hs_avg is the wave height in metres. But this time, the shape of the matrix is latitude x longitude
 
+ CHRIS - change from -180 - 180 to 0-360
 ~~~
 import netCDF4 as nc
 ~~~
@@ -343,10 +344,6 @@ Although the type of this element is `numpy.ma.core.MaskedArray`, the `imshow()`
 We then need to specify that the data axes of the plot need to go from 0 to 360 on the x-axis, and -90 to 90 on the y-axis. We also use
 `origin='lower'` to stop the map being displayed upside down, because we want the map being plotted from the bottom-left, rather than the top-left 
 which is the default for plotting matrix-type data (because this is where `[0:0]` normally is).
-
-# do you think we need to show any other functionality? Or could we write a whole new episode for the intermediate course on NetCDF files?
-Example: read off the value at a specified lat/lon (or nearest neighbour). That would be helpful as a way to 'search' the dataset
-
-# lucy: why does plt.imshow(gdata["hs_avg"][0,:,:]) show nice colours, but plt.imshow(gdata["hs_avg"][0,:,:].data) not?
-
+ 
+ CHRIS - can we add a colourbar
 {% include links.md %}

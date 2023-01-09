@@ -66,9 +66,9 @@ matplotlib.pyplot.show()
 
 ![A line graph showing the monthly average wave height over a 37 year period.](../fig/monthly_wavedata-average.png)
 
-This is a good way to smooth out variability, and see what is called a 'climatology' representing the long-term wave climate over several years or decades.
+This is a good way to smooth out variability, and see what is called a 'climatology', representing the long-term wave climate over several years or decades.
 
-Here, we have put the average wave heights per month across all yeara in the data
+Here, we have put the average wave heights per month across all years in the data
 `ave_waveheight`, then asked `matplotlib.pyplot` to create and display a line graph of those
 values.  The result is a smooth seasonal cycle, with a maximum in month 0 (January) and minimum in month 6 (July). 
 But a good data scientist doesn't just consider the average of a dataset, so let's have a look at two other statistics:
@@ -105,7 +105,7 @@ refers to the total number of subplot columns, and the final parameter denotes w
 your variable is referencing (left-to-right, top-to-bottom). Each subplot is stored in a
 different variable (`axes1`, `axes2`, `axes3`). Once a subplot is created, the axes can
 be titled using the `set_xlabel()` command (or `set_ylabel()`).
-Here are our three plots side by side:
+Let's create three new plots, side by side, this time showing within each of the 37 years of the dataset - notice how we now use `axis=1` in our calls to the summary statistic functions:
 
 ~~~
 fig = matplotlib.pyplot.figure(figsize=(10.0, 3.0))
@@ -114,13 +114,16 @@ axes1 = fig.add_subplot(1, 3, 1)
 axes2 = fig.add_subplot(1, 3, 2)
 axes3 = fig.add_subplot(1, 3, 3)
 
-axes1.set_ylabel('average')
+axes1.set_ylabel('Average')
+axes1.set_xlabel('Year index')
 axes1.plot(numpy.mean(data, axis=1))
 
-axes2.set_ylabel('max')
+axes2.set_ylabel('Max')
+axes2.set_xlabel('Year index')
 axes2.plot(numpy.max(data, axis=1))
 
-axes3.set_ylabel('min')
+axes3.set_ylabel('Min')
+axes3.set_xlabel('Year index')
 axes3.plot(numpy.min(data, axis=1))
 
 fig.tight_layout()
@@ -144,7 +147,7 @@ The call to `savefig` stores the plot as a graphics file. This can be
 a convenient way to store your plots for use in other documents, web
 pages etc. The graphics format is automatically determined by
 Matplotlib from the file name ending we specify; here PNG from
-'inflammation.png'. Matplotlib supports many different graphics
+'wavedata.png'. Matplotlib supports many different graphics
 formats, including SVG, PDF, and JPEG.
 
 > ## Importing libraries with shortcuts
@@ -211,42 +214,28 @@ formats, including SVG, PDF, and JPEG.
 > {: .solution}
 {: .challenge}
 
-
-#FAO LUCY: does this bit make any sense for our data? Can we still include a drawstyle example?
+CHRIS - change to 3 line plots and a legend in a single panel
+show them drawing styles different colour / dashed lines
 
 > ## Drawing Straight Lines
 >
-> In the center and right subplots above, we expect all lines to look like step functions because
-> non-integer value are not realistic for the minimum and maximum values. However, you can see
-> that the lines are not always vertical or horizontal, and in particular the step function
-> in the subplot on the right looks slanted. Why is this?
+> We can also plot more than one dataset on a single pair of axes, and Matplotlib gives us lots of control over
+> the output. Can you plot the maximum, minimum, and mean all on the same axes, change the colour and marker used for each of the plots,
+> and give the plot a legend?
 >
 > > ## Solution
-> > Because matplotlib interpolates (draws a straight line) between the points.
-> > One way to do avoid this is to use the Matplotlib `drawstyle` option:
+> > We can call `plot` multiple times before we call `show`, and each of those will be added to the axes. We can also
+> > specify format options as a string (this needs to specified straight after the data to plot), with all available options
+> > listed in [the documentation](https://matplotlib.org/stable/api/_as_gen/matplotlib.pyplot.plot.html). We also need to specify 
+> > `label`s for each plot, and call `legend()` to make the legend visible. 
+> >
+> > An example would be
 > >
 > > ~~~
-> > import numpy
-> > import matplotlib.pyplot
-> >
-> > data = numpy.loadtxt(fname='inflammation-01.csv', delimiter=',')
-> >
-> > fig = matplotlib.pyplot.figure(figsize=(10.0, 3.0))
-> >
-> > axes1 = fig.add_subplot(1, 3, 1)
-> > axes2 = fig.add_subplot(1, 3, 2)
-> > axes3 = fig.add_subplot(1, 3, 3)
-> >
-> > axes1.set_ylabel('average')
-> > axes1.plot(numpy.mean(data, axis=0), drawstyle='steps-mid')
-> >
-> > axes2.set_ylabel('max')
-> > axes2.plot(numpy.max(data, axis=0), drawstyle='steps-mid')
-> >
-> > axes3.set_ylabel('min')
-> > axes3.plot(numpy.min(data, axis=0), drawstyle='steps-mid')
-> >
-> > fig.tight_layout()
+> > matplotlib.pyplot.plot(numpy.max(data, axis=0), "bo", label='Maximum')
+> > matplotlib.pyplot.plot(numpy.average(data, axis=0), "m+", label='Average')
+> > matplotlib.pyplot.plot(numpy.min(data, axis=0), "r--", label='Minumum')
+> > matplotlib.pyplot.legend(loc='best')
 > >
 > > matplotlib.pyplot.show()
 > > ~~~
@@ -263,7 +252,7 @@ formats, including SVG, PDF, and JPEG.
 >
 > > ## Solution
 > > ~~~
-> > std_plot = matplotlib.pyplot.plot(numpy.nanstd(data, axis=0))
+> > std_plot = matplotlib.pyplot.plot(numpy.std(data, axis=0))
 > > matplotlib.pyplot.show()
 > > ~~~
 > > {: .language-python}
@@ -308,6 +297,7 @@ easily with python, but we use to use a different library
 
 We will again use data describing sea waves, but this time looking at a spatial map. This data set shows a static world map, containing data with the multi-year average wave climate. Again, hs_avg is the wave height in metres. But this time, the shape of the matrix is latitude x longitude
 
+ CHRIS - change from -180 - 180 to 0-360
 ~~~
 import netCDF4 as nc
 ~~~
@@ -329,11 +319,12 @@ print(type(globaldata))
 We can use Matplotlib to display this data set as a world map. The data go from -90 degrees (south pole) to +90 degrees (north pole) in the y direction. In the x-direction the data go from 0 to 360 degrees East, starting at the Greenwich meridian. The white areas are land, because we have no data there to plot.
 
 ~~~
-matplotlib.pyplot.imshow(globaldata["hs_avg"][0], extent=[0 360,-90,90], origin='lower')
+matplotlib.pyplot.imshow(globaldata["hs_avg"][0], extent=[0,360,-90,90], origin='lower')
+matplotlib.pyplot.show()
 ~~~
 {: .language-python}
 
-![desciption.](../fig/global_surfaceu.svg)
+![Global surface waveheight](../fig/global_surfaceu.svg)
 
 NetCDF files can be quite complex, and normally consist of a number of variables stored as 2D or 3D arrays. `globaldata["hs_avg"]`
 is getting a variable called *hs_avg*, which is of type `netCDF4._netCDF4.Variable` (the full list of variables stored can be listed with
@@ -344,9 +335,25 @@ We then need to specify that the data axes of the plot need to go from 0 to 360 
 `origin='lower'` to stop the map being displayed upside down, because we want the map being plotted from the bottom-left, rather than the top-left 
 which is the default for plotting matrix-type data (because this is where `[0:0]` normally is).
 
-# do you think we need to show any other functionality? Or could we write a whole new episode for the intermediate course on NetCDF files?
-Example: read off the value at a specified lat/lon (or nearest neighbour). That would be helpful as a way to 'search' the dataset
+We can also add a colour bar to help describe the figure, with a little more code:
 
-# lucy: why does plt.imshow(gdata["hs_avg"][0,:,:]) show nice colours, but plt.imshow(gdata["hs_avg"][0,:,:].data) not?
+~~~
+import mpl_toolkits
+
+matplotlib.pyplot.figure()
+ax = matplotlib.pyplot.gca()
+im = ax.imshow(globaldata["hs_avg"][0], extent=[0,360,-90,90], origin='lower')
+
+divider = mpl_toolkits.axes_grid1.make_axes_locatable(ax)
+cax = divider.append_axes("right", size="5%", pad=0.05)
+
+matplotlib.pyplot.colorbar(im, cax=cax)
+~~~
+{: .language-python}
+
+Here, we don't need to use the `mpl_toolkits` library, but it's useful to help format the colourbar.
+
+![Global surface waveheight with a colourbar](../fig/global_surfaceu-colourbar.svg)
+
 
 {% include links.md %}

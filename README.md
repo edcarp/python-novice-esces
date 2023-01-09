@@ -22,7 +22,8 @@ The rendered version of the lesson is available at:
 <https://edcarp.github.io/python-novice-esces/>.
 
 This lesson is derived from the [Analaysis of Inflammation Data lesson](inflammation_lesson). [Neil Chue Hong](npch), [Chris Wood](chris_wood), [Lucy Bricheno](lucy_b), and [Daniel Barker](daniel_b) were awarded a [NERC Advanced Short Training Course Grant](nerc_grant) to run Software Carpentry Courses specifically for
-NERC domain scientists, to include providing domain-specific examples. The wave-height data was provided by Lucy Bricheno.
+NERC domain scientists, to include providing domain-specific examples. The wave-height data was taken from. Bricheno & Wolf (2018) 'Future wave conditions of Europe, in response to high‐end climate change scenarios.' Journal of Geophysical Research: Oceans.
+
 
 ## Episodes
 

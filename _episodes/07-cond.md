@@ -149,7 +149,7 @@ at least one test is true
 ## Checking our Data
 
 Now that we've seen how conditionals work,
-we can use them to check for the suspicious features we saw in our inflammation data.
+we can use them to look for thresholds in our wave data.
 We are about to use functions provided by the `numpy` module again.
 Therefore, if you're working in a new Python session, make sure to load the
 module with:
@@ -159,13 +159,10 @@ import numpy
 ~~~
 {: .language-python}
 
-From the first couple of plots, we saw that maximum daily inflammation exhibits
-a strange behavior and raises one unit a day.
-Wouldn't it be a good idea to detect such behavior and report it as suspicious?
-Let's do that!
-However, instead of checking every single day of the study, let's merely check
-if maximum inflammation in the beginning (day 0) and in the middle (day 20) of
-the study are equal to the corresponding day numbers.
+If you are operating a boat, for carrying passengers of working offshore, you need to know that it will be save to go to sea.
+Ideally you wouldn't want to have people transported if the wave height is above 1.8m 
+
+Let's look at our wave data, and find which months we can operate the boats?
 
 ~~~
 max_inflammation_0 = numpy.max(data, axis=0)[0]
@@ -176,17 +173,14 @@ if max_inflammation_0 == 0 and max_inflammation_20 == 20:
 ~~~
 {: .language-python}
 
-We also saw a different problem in the third dataset;
-the minima per day were all zero (looks like a healthy person snuck into our study).
-We can also check for this with an `elif` condition:
-
+Survey vehicles can operate in stormier waters, with wave heights up to 3.5m 
 ~~~
 elif numpy.sum(numpy.min(data, axis=0)) == 0:
     print('Minima add up to zero!')
 ~~~
 {: .language-python}
 
-And if neither of these conditions are true, we can use `else` to give the all-clear:
+And if neither of these conditions are true, then it's too stormy, and nothing can go out.
 
 ~~~
 else:

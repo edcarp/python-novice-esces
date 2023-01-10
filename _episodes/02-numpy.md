@@ -548,6 +548,19 @@ Everything in a line of code following the '#' symbol is a
 Comments allow programmers to leave explanatory notes for other
 programmers or their future selves.
 
+<!-- We don't actually need to store the row in a variable of its own.
+Instead, we can combine the selection and the function call:
+
+~~~
+print('maximum wave height for year 2:', numpy.max(data[2, :]))
+~~~
+{: .language-python}
+
+~~~
+maximum wave height for year 2: 19.0
+~~~
+{: .output} -->
+
 What if we need the maximum wave height for each month over all years (as in the
 next diagram on the left) or the average for each day (as in the
 diagram on the right)? As the diagram below shows, we want to perform the

@@ -24,9 +24,9 @@ These values are monthly averages, over a period of 37 years. The first two colu
 
 1. Calculate an average and maximum
 2. Observe the seasonal cycle
-3. Take a range from the minimum to the maxium
+3. Take averages per month over successive years
 4. Find which months have the smallest and largest waves
-5. Plot the result to discuss and share with colleagues.
+5. Plot the result to discuss and share with colleagues
 
 ![3-step flowchart shows inflammation data records for patients moving to the Analysis step
 where a heat map of provided data is generated moving to the Conclusion step that asks the
@@ -38,8 +38,9 @@ fig/lesson-overview.svg "Lesson Overview")
 The data sets are stored in
 [comma-separated values]({{ page.root }}/reference.html#comma-separated-values) (CSV) format:
 
-- each row holds information for a single patient,
-- columns represent successive days.
+- the data represent waves at one location in the North Atlantic Ocean
+- each row holds information for a single months,
+- 3 columns represent year, month, and then the data value
 
 The first seven rows of our first file look like this:
 ~~~
@@ -53,7 +54,7 @@ The first seven rows of our first file look like this:
 ~~~
 {: .source}
 
-Each number represents the significant wave height in metres, an average over the month.
+Each data value represents the significant wave height in metres, an average over the month.
 
 For example, value "1.5" at row 7 column 3 of the data set above means that during the seventh month (July) of the first year (1979), the wave height was an average of 2.066 m.
 

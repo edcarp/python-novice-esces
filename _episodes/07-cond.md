@@ -166,23 +166,25 @@ import numpy
 {: .language-python}
 
 If you are operating a boat, for carrying passengers of working offshore, you need to know that it will be save to go to sea.
-Ideally you wouldn't want to have people transported if the wave height is above 1.8m 
+Ideally you wouldn't want to have passengers transported if the wave height is above 3 metres 
 
-Let's look at our wave data, and find which months we can operate the boats?
+Let's look at our wave data, and find which months we can operate the boats, based on the monthly mean wave-height.
+
+We could look at each month individually:
 
 ~~~
-max_inflammation_0 = numpy.max(data, axis=0)[0]
-max_inflammation_20 = numpy.max(data, axis=0)[20]
+month0 = numpy.mean(data, axis=0)[0] # [0] gets the first element of the array. In our case, the first month: January
 
-if max_inflammation_0 == 0 and max_inflammation_20 == 20:
-    print('Suspicious looking maxima!')
+if month0 < 3:
+    print('Can take passengers this month')
 ~~~
 {: .language-python}
 
-Survey vehicles can operate in stormier waters, with wave heights up to 3.5m 
+Survey vehicles can operate in stormier waters, with wave heights up to 4m 
+
 ~~~
-elif numpy.sum(numpy.min(data, axis=0)) == 0:
-    print('Minima add up to zero!')
+elif numpy.mean(data, axis=0) > 4:
+    print('Can take survey vehicles (but not passengers)')
 ~~~
 {: .language-python}
 
@@ -190,51 +192,91 @@ And if neither of these conditions are true, then it's too stormy, and nothing c
 
 ~~~
 else:
-    print('Seems OK!')
+    print('Can't take any boats out to sea')
 ~~~
 {: .language-python}
 
-Let's test that out:
+Let's test that out for January:
 
 ~~~
-data = numpy.loadtxt(fname='inflammation-01.csv', delimiter=',')
+data = numpy.loadtxt(fname='reshaped_data.csv', delimiter=',')
 
-max_inflammation_0 = numpy.max(data, axis=0)[0]
-max_inflammation_20 = numpy.max(data, axis=0)[20]
+month0 = numpy.max(data, axis=0)[0]
 
-if max_inflammation_0 == 0 and max_inflammation_20 == 20:
-    print('Suspicious looking maxima!')
-elif numpy.sum(numpy.min(data, axis=0)) == 0:
-    print('Minima add up to zero!')
+if month0 < 3:
+    print('Can take passengers this month')
+elif numpy.mean(data, axis=0) < 4:
+    print('Can take survey vehicles (but not passengers)')
 else:
-    print('Seems OK!')
+    print('Can't take any boats out to sea')
 ~~~
 {: .language-python}
 
 ~~~
-Suspicious looking maxima!
+Can't take any boats out to sea
 ~~~
 {: .output}
 
+Now let's try for June
+
 ~~~
-data = numpy.loadtxt(fname='inflammation-03.csv', delimiter=',')
+month5 = numpy.max(data, axis=0)[5]
 
-max_inflammation_0 = numpy.max(data, axis=0)[0]
-max_inflammation_20 = numpy.max(data, axis=0)[20]
-
-if max_inflammation_0 == 0 and max_inflammation_20 == 20:
-    print('Suspicious looking maxima!')
-elif numpy.sum(numpy.min(data, axis=0)) == 0:
-    print('Minima add up to zero!')
+if month5 < 3:
+    print('Can take passengers this month')
+elif numpy.mean(data, axis=0) < 4:
+    print('Can take survey vehicles (but not passengers)')
 else:
-    print('Seems OK!')
+    print('Can't take any boats out to sea')
 ~~~
 {: .language-python}
 
 ~~~
-Minima add up to zero!
+Can take passengers this month
 ~~~
 {: .output}
+
+Notice how the statement stops as soon as it reaches a condition which is `True`.
+
+We could test for all months less manually, using a `for loop` again:
+
+~~~
+for month_index, monthly_waveheight in enumerate(numpy.mean(r, axis=0)):
+    if monthly_waveheight < 3:
+        print(f"Month {month_index}: we can take passengers this month")
+    elif monthly_waveheight < 4:
+        print(f"Month {month_index}: we can take survey vehicles (but not passengers) this month")
+    else:
+        print(f"Month {month_index}: we can't take any boats out to sea this month")
+~~~
+{: .language-python}
+
+~~~
+Month 0: can't take any boats out to sea this month
+Month 1: can't take any boats out to sea this month
+Month 2: can't take any boats out to sea this month
+Month 3: can take survey vehicles (but not passengers) this month
+Month 4: can take passengers this month
+Month 5: can take passengers this month
+Month 6: can take passengers this month
+Month 7: can take passengers this month
+Month 8: can take passengers this month
+Month 9: can take survey vehicles (but not passengers) this month
+Month 10: can take survey vehicles (but not passengers) this month
+Month 11: can't take any boats out to sea this month
+~~~
+{: .output}
+
+The `enumerate` function is the _Pythonic_ way of getting the index of values in a loop - in this case it allows us to 
+list the month number in the output. We need a variable to store this value in, which we're calling `month_index`. Because the loop returns two
+variables form each iteration (month index and monthly waveheight), we need two variables.
+
+We can see that we could suggest a timetable for passenger ferries in 
+May - September (inclusive), we could plan to take survey boats out in April, October, and November; and we should not plan
+any sea-going activities in January, February, March, or December.
+
+This is a relatively crude example, but shows how we can use these programming constructs to help
+make some decisions using the data. 
 
 In this way,
 we have asked Python to do something different depending on the condition of our data.

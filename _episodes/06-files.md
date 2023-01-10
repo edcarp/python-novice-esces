@@ -37,12 +37,12 @@ print(glob.glob('wave*.csv'))
 ~~~
 {: .output}
 
-As these examples show,
+These files show waveheight data from some years in the decades indicated in the filename. As these examples show,
 `glob.glob`'s result is a list of file and directory paths in arbitrary order.
 This means we can loop over it
 to do something with each filename in turn.
 In our case,
-the "something" we want to do is generate a set of plots for each file in our inflammation dataset.
+the "something" we want to do is generate a set of plots for each file in our waveheight dataset.
 
 If we want to start by analyzing just the first three files in alphabetical order, we can use the
 `sorted` built-in function to generate a new sorted list from the `glob.glob` output:
@@ -90,8 +90,8 @@ waves-00.csv
 ~~~
 {: .output}
 
-![Output from the first iteration of the for loop. Three line graphs showing the daily average,
-maximum and minimum inflammation over a 40-day period for all patients in the first dataset.](
+![Output from the first iteration of the for loop. Three line graphs showing the average,
+maximum and minimum waveheight in the 2000s.](
 ../fig/waves_loop_1.svg)
 
 ~~~
@@ -99,18 +99,16 @@ waves-10s.csv
 ~~~
 {: .output}
 
-![Output from the second iteration of the for loop. Three line graphs showing the daily average,
-maximum and minimum inflammation over a 40-day period for all patients in the second
-dataset.](../fig/waves_loop_2.svg)
+![Output from the second iteration of the for loop. Three line graphs showing the average,
+maximum and minimum waveheight in the 2010s.](../fig/waves_loop_2.svg)
 
 ~~~
 waves-80s.csv
 ~~~
 {: .output}
 
-![Output from the third iteration of the for loop. Three line graphs showing the daily average,
-maximum and minimum inflammation over a 40-day period for all patients in the third
-dataset.](../fig/waves_loop_3.svg)
+![Output from the third iteration of the for loop. Three line graphs showing the average,
+maximum and minimum waveheight in the 1980s.](../fig/waves_loop_3.svg)
 
 > ## Different types of division
 >
@@ -158,6 +156,65 @@ dataset.](../fig/waves_loop_3.svg)
 > 4
 > ~~~
 > {: .output}
+{: .callout}
+
+Sometimes, plots can help us spot patterns in data, or problems with data.
+
+Let's load `waves_90s.csv`:
+
+~~~
+data = numpy.loadtxt(fname = "waves_90s.csv", delimiter=',')
+~~~
+{: .language-python}
+
+If we try and take the mean for the entire year, we'll see that there must be NaNs:
+
+~~~
+numpy.mean(data[:,2])
+~~~
+{: .language-python}
+
+~~~
+nan
+~~~
+{: .output}
+
+If we had only plotted the reshaped data, we would see white squares where there are NaNs in the data:
+
+~~~
+matplotlib.pyplot.imshow(data)
+matplotlib.pyplot.show()
+~~~
+{: .language-python}
+
+![1990s data highlighting NaNs](../fig/1990s_nans.svg)
+
+We can clearly see that there must have been some problem with the collection of data in the first 6 months of 1994.
+Apart from that, the rest of the data looks relatively sensible, with low waveheights in the summer months of the decade, and 
+higher waveheights in the winter monnths of the decade. This means that we can probably trust the rest of the dataset. 
+
+There are other ways that we could have determined where the missing data is. The Numpy function `isnan` will tell us whether 
+any given value is NaN; if we give it an `ndarray`, it will return an `ndarray` of the same shape with boolean values (`True` or `False`)
+showing if the value at that index was a NaN. `argwhere` will return the indices for an `ndarray` of booleans where the value is `True`.
+
+~~~
+numpy.argwhere(numpy.isnan(data))
+~~~
+{: .language-python}
+
+~~~
+array([[4, 0],
+       [4, 1],
+       [4, 2],
+       [4, 3],
+       [4, 4],
+       [4, 5]])
+~~~
+{: .output}
+
+There are almost always multiple ways to achieve the same result in programming, and often the choice as to which method
+to use comes down to personal preference. Some people might prefer to look at patterns in plots, while others may be happy to 
+look at summary statistics and aggregate values from tabular data to come to the same conclusion.
 
 The plots generated for the second clinical trial file look very similar to the plots for
 the first file: their average plots show similar "noisy" rises and falls; their maxima plots

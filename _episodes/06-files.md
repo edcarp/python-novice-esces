@@ -12,8 +12,8 @@ keypoints:
 - "Use `*` in a pattern to match zero or more characters, and `?` to match any single character."
 ---
 
-As a final piece to processing our inflammation data, we need a way to get a list of all the files
-in our `data` directory whose names start with `inflammation-` and end with `.csv`.
+When working with real datasets, we may not always have everything in a single file.
+We need a way to get a list of all the files in our `data` directory whose names start with `wave-` and end with `.csv`.
 The following library will help us to achieve this:
 ~~~
 import glob
@@ -110,6 +110,10 @@ waves-80s.csv
 ![Output from the third iteration of the for loop. Three line graphs showing the average,
 maximum and minimum waveheight in the 1980s.](../fig/waves_loop_3.svg)
 
+
+Looking at these three decades, we can see similarities - with the average value representing a smooth climate with clear annual cycle. 
+There are differences year on year, and the minimum and maximum data tend to be more variable than the mean.
+
 > ## Different types of division
 >
 > You might have noticed that we calculated the number of years when reshaping the data, rather
@@ -190,8 +194,8 @@ matplotlib.pyplot.show()
 ![1990s data highlighting NaNs](../fig/1990s_nans.svg)
 
 We can clearly see that there must have been some problem with the collection of data in the first 6 months of 1994.
-Apart from that, the rest of the data looks relatively sensible, with low waveheights in the summer months of the decade, and 
-higher waveheights in the winter monnths of the decade. This means that we can probably trust the rest of the dataset. 
+Apart from that, the rest of the data looks relatively sensible, with low wave heights in the summer months of the decade, and 
+higher wave heights in the winter months of the decade. This means that we have no reason not to trust the rest of the dataset. 
 
 There are other ways that we could have determined where the missing data is. The Numpy function `isnan` will tell us whether 
 any given value is NaN; if we give it an `ndarray`, it will return an `ndarray` of the same shape with boolean values (`True` or `False`)
@@ -216,32 +220,10 @@ There are almost always multiple ways to achieve the same result in programming,
 to use comes down to personal preference. Some people might prefer to look at patterns in plots, while others may be happy to 
 look at summary statistics and aggregate values from tabular data to come to the same conclusion.
 
-The plots generated for the second clinical trial file look very similar to the plots for
-the first file: their average plots show similar "noisy" rises and falls; their maxima plots
-show exactly the same linear rise and fall; and their minima plots show similar staircase
-structures.
-
-The third dataset shows much noisier average and maxima plots that are far less suspicious than
-the first two datasets, however the minima plot shows that the third dataset minima is
-consistently zero across every day of the trial. If we produce a heat map for the third data file
-we see the following:
-
-# FAO Lucy: I haven't created a new heatmap here yet - let me know what you think we should show here and I'll create it
-
-![Heat map of the third inflammation dataset. Note that there are sporadic zero values throughout
-the entire dataset, and the last patient only has zero values over the 40 day study.
-](../fig/inflammation-03-imshow.svg)
-
-We can see that there are zero values sporadically distributed across all patients and days of the
-clinical trial, suggesting that there were potential issues with data collection throughout the
-trial. In addition, we can see that the last patient in the study didn't have any inflammation
-flare-ups at all throughout the trial, suggesting that they may not even suffer from arthritis!
-
-
 > ## Plotting Differences
 >
 > Plot the difference between the average monthly waveheights in the 1980s and 1990s
-> Can you do this using glob, without specifying the filenames directly in the code?
+> Can you do this using glob, without specifying the filenames explicitly in the code?
 >
 > > ## Solution
 > > ~~~
@@ -273,93 +255,8 @@ flare-ups at all throughout the trial, suggesting that they may not even suffer 
 > > {: .language-python}
 > {: .solution}
 {: .challenge}
-
-# FAO Lucy: as it stands, creating composite stats exercise won't make any sense with our data in the same way (I don't think) - 
-# we could remove it, or come up with a new final exercise (although it doesn't really show anything not already shown) 
-
-> ## Generate Composite Statistics
->
-> Use each of the files once to generate a dataset containing values averaged over all patients:
->
-> ~~~
-> filenames = glob.glob('inflammation*.csv')
-> composite_data = numpy.zeros((60,40))
-> for filename in filenames:
->     # sum each new file's data into composite_data as it's read
->     #
-> # and then divide the composite_data by number of samples
-> composite_data = composite_data / len(filenames)
-> ~~~
-> {: .language-python}
->
-> Then use pyplot to generate average, max, and min for all patients.
->
-> > ## Solution
-> > ~~~
-> > import glob
-> > import numpy
-> > import matplotlib.pyplot
-> >
-> > filenames = glob.glob('inflammation*.csv')
-> > composite_data = numpy.zeros((60,40))
-> >
-> > for filename in filenames:
-> >     data = numpy.loadtxt(fname = filename, delimiter=',')
-> >     composite_data = composite_data + data
-> >
-> > composite_data = composite_data / len(filenames)
-> >
-> > fig = matplotlib.pyplot.figure(figsize=(10.0, 3.0))
-> >
-> > axes1 = fig.add_subplot(1, 3, 1)
-> > axes2 = fig.add_subplot(1, 3, 2)
-> > axes3 = fig.add_subplot(1, 3, 3)
-> >
-> > axes1.set_ylabel('average')
-> > axes1.plot(numpy.mean(composite_data, axis=0))
-> >
-> > axes2.set_ylabel('max')
-> > axes2.plot(numpy.max(composite_data, axis=0))
-> >
-> > axes3.set_ylabel('min')
-> > axes3.plot(numpy.min(composite_data, axis=0))
-> >
-> > fig.tight_layout()
-> >
-> > matplotlib.pyplot.show()
-> > ~~~
-> > {: .language-python}
->{: .solution}
-{: .challenge}
-
-After spending some time investigating the heat map and statistical plots, as well as
-doing the above exercises to plot differences between datasets and to generate composite
-patient statistics, we gain some insight into the twelve clinical trial datasets.
-
-The datasets appear to fall into two categories:
-
-* seemingly "ideal" datasets that agree excellently with Dr. Maverick's claims,
-  but display suspicious maxima and minima (such as `inflammation-01.csv` and `inflammation-02.csv`)
-* "noisy" datasets that somewhat agree with Dr. Maverick's claims, but show concerning
-  data collection issues such as sporadic missing values and even an unsuitable candidate
-  making it into the clinical trial.
-
-In fact, it appears that all three of the "noisy" datasets (`inflammation-03.csv`,
-`inflammation-08.csv`, and `inflammation-11.csv`) are identical down to the last value.
-Armed with this information, we confront Dr. Maverick about the suspicious data and
-duplicated files.
-
-Dr. Maverick confesses that they fabricated the clinical data after they found out
-that the initial trial suffered from a number of issues, including unreliable data-recording and
-poor participant selection. They created fake data to prove their drug worked, and when we asked
-for more data they tried to generate more fake datasets, as well as throwing in the original
-poor-quality dataset a few times to try and make all the trials seem a bit more "realistic".
-
-Congratulations! We've investigated the inflammation data and proven that the datasets have been
-synthetically generated.
-
-But it would be a shame to throw away the synthetic datasets that have taught us so much
-already, so we'll forgive the imaginary Dr. Maverick and continue to use the data to learn
-how to program.
+ 
+Congratulations! We've investigated the wave data and spotted some trends, and identified bad / missing data.
+Now that we understand what is in the model data set, and trust that it is realistic, we can use it to make practical decisions about things like boat operations
 
 {% include links.md %}

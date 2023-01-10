@@ -294,7 +294,6 @@ easily with python, but we use to use a different library
 
 We will again use data describing sea waves, but this time looking at a spatial map. This data set shows a static world map, containing data with the multi-year average wave climate. Again, hs_avg is the wave height in metres. But this time, the shape of the matrix is latitude x longitude
 
- CHRIS - change from -180 - 180 to 0-360
 ~~~
 import netCDF4 as nc
 ~~~

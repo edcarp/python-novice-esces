@@ -183,7 +183,7 @@ if month0 < 3:
 Survey vehicles can operate in stormier waters, with wave heights up to 4m 
 
 ~~~
-elif numpy.mean(data, axis=0) > 4:
+elif numpy.mean(data, axis=0) < 4:
     print('Can take survey vehicles (but not passengers)')
 ~~~
 {: .language-python}
@@ -238,7 +238,7 @@ Can take passengers this month
 
 Notice how the statement stops as soon as it reaches a condition which is `True`.
 
-We could test for all months less manually, using a `for loop` again:
+We could test for all months less manually, using a `for loop`:
 
 ~~~
 for month_index, monthly_waveheight in enumerate(numpy.mean(r, axis=0)):

@@ -349,7 +349,7 @@ print(numpy.mean(data))
 
 `mean` is a [function]({{ page.root }}/reference.html#function) that takes
 an array as an [argument]({{ page.root }}/reference.html#argument). Given that our
-array contains year and month information as well as data, taking the mean of the
+array contains the dates as well as data, with numbers relating to years and months, taking the mean of the 
 whole array doesn't really make much sense - we don't expect to see 600 metre high waves!
 
 We can use slicing to calculate the correct mean:

@@ -28,10 +28,10 @@ These values are monthly averages, over a period of 37 years. The first two colu
 4. Find which months have the smallest and largest waves
 5. Plot the result to discuss and share with colleagues
 
-![3-step flowchart shows inflammation data records for patients moving to the Analysis step
+![3-step flowchart shows a photo of the sea moving to the Analysis step
 where a heat map of provided data is generated moving to the Conclusion step that asks the
-question, How does the medication affect patients?](
-fig/lesson-overview.svg "Lesson Overview")
+question, What can we conclude from the data?](
+fig/intro.png "Lesson Overview")
 
 
 ### Data Format

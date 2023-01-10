@@ -894,4 +894,13 @@ which is the average wave height per month across all years.
 > {: .solution}
 {: .challenge}
 
+There are occasions though the rest of the lesson when we will want to use the reshaped data. If we close this Notebook, we'll
+lose the variables we've created, so let's save the reshaped data to a file:
+
+~~~
+numpy.savetxt("reshaped_data.csv", reshaped_data)
+~~~
+{: .python}
+
+
 {% include links.md %}

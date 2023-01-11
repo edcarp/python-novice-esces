@@ -201,7 +201,7 @@ first value in data: 3.788
 {: .output}
 
 ~~~
-print('middle value in data:', data[222, 3])
+print('middle value in data:', data[222, 2])
 ~~~
 {: .language-python}
 

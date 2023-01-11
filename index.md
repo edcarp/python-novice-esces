@@ -56,7 +56,7 @@ The first seven rows of our first file look like this:
 
 Each data value represents the significant wave height in metres, an average over the month.
 
-For example, value "1.5" at row 7 column 3 of the data set above means that during the seventh month (July) of the first year (1979), the wave height was an average of 2.066 m.
+For example, value "2.066" at row 7 column 3 of the data set above means that during the seventh month (July) of the first year (1979), the wave height was an average of 2.066 m.
 
 In order to analyze this data and report to our colleagues, we'll have to learn a little bit
 about programming.

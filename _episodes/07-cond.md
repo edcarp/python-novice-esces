@@ -25,11 +25,6 @@ How can we use this data to make practical decisions?
 How can we use Python to identify thresholds, and take a different action for each? 
 In this lesson, we'll learn how to write code that runs only when certain conditions are true.
 
-**FAO CHRIS**  the example I gave wass for ship operations
-e.g. with wave heights below 1.8 m you cen send out a crew transport vessel
-Above 3.5 m you cannot operatre survey / support ships - so nothing can go out.
-Suggest you use these in the example course 07
-
 
 ## Conditionals
 

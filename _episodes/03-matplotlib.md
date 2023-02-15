@@ -36,7 +36,7 @@ import the `pyplot` module from `matplotlib` and use two of its functions to cre
 >
 > ~~~
 > import numpy
-> data = numpy.loadtxt(fname='wavesmonthly.csv', delimiter=',' skiprows=1)
+> data = numpy.loadtxt(fname='wavesmonthly.csv', delimiter=',', skiprows=1)
 > data = numpy.reshape(data[:,2], [37,12]) 
 > ~~~
 > {: .language-python}

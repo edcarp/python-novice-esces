@@ -443,19 +443,18 @@ freeing us from having to manually examine every plot for features we've seen be
 
 > ## Sorting a List Into Buckets
 >
-> In our `data` folder, large data sets are stored in files whose names start with
-> "inflammation-" and small data sets -- in files whose names start with "small-". We
-> also have some other files that we do not care about at this point. We'd like to break all
-> these files into three lists called `large_files`, `small_files`, and `other_files`,
+> In our `data` folder, we have some CSV files (those with .csv file extensions), and one NetCDF file (with a .nc file extension).
+> We'd like to break these
+> files into two lists called `csv_files` and `nc_files`,
 > respectively.
 >
 > Add code to the template below to do this. Note that the string method
-> [`startswith`](https://docs.python.org/3/library/stdtypes.html#str.startswith)
-> returns `True` if and only if the string it is called on starts with the string
+> [`startswith`](https://docs.python.org/3/library/stdtypes.html#str.endswith)
+> returns `True` if and only if the string it is called on ends with the string
 > passed as an argument, that is:
 >
 > ~~~
-> 'String'.startswith('Str')
+> 'String'.endswith('ing')
 > ~~~
 > {: .language-python}
 > ~~~
@@ -464,7 +463,7 @@ freeing us from having to manually examine every plot for features we've seen be
 > {: .output}
 > But
 > ~~~
-> 'String'.startswith('str')
+> 'String'.startswith('ING')
 > ~~~
 > {: .language-python}
 > ~~~
@@ -473,14 +472,14 @@ freeing us from having to manually examine every plot for features we've seen be
 > {: .output}
 >Use the following Python code as your starting point:
 > ~~~
-> filenames = ['inflammation-01.csv',
->          'myscript.py',
->          'inflammation-02.csv',
->          'small-01.csv',
->          'small-02.csv']
-> large_files = []
-> small_files = []
-> other_files = []
+> filenames = ['wavesmonthly.csv',
+>          'waves_00s.csv',
+>          'waves_10s.csv',
+>          'waves_80s.csv',
+>          'waves_90s.csv',
+>          'multyear_hs_avg.nc']
+> csv_files = []
+> nc_files = []
 > ~~~
 > {: .language-python}
 >
@@ -490,27 +489,26 @@ freeing us from having to manually examine every plot for features we've seen be
 > 2.  figure out which group each filename belongs in
 > 3.  append the filename to that list
 >
-> In the end the three lists should be:
+> In the end the two lists should be:
 >
 > ~~~
-> large_files = ['inflammation-01.csv', 'inflammation-02.csv']
-> small_files = ['small-01.csv', 'small-02.csv']
-> other_files = ['myscript.py']
+> csv_files = ['waves_00s.csv', 'waves_10s.csv', 'waves_80s.csv', 'waves_90s.csv', 'wavesmonthly.csv']
+> nc_files = ['multyear_hs_avg.nc']
 > ~~~
 > {: .language-python}
 >
 > > ## Solution
 > > ~~~
 > > for filename in filenames:
-> >     if filename.startswith('inflammation-'):
-> >         large_files.append(filename)
-> >     elif filename.startswith('small-'):
-> >         small_files.append(filename)
+> >     if filename.endswith('csv'):
+> >         csv_files.append(filename)
+> >     elif filename.endswith('nc'):
+> >         nc_files.append(filename)
 > >     else:
 > >         other_files.append(filename)
 > >
-> > print('large_files:', large_files)
-> > print('small_files:', small_files)
+> > print('csv_files:', csv_files)
+> > print('nc_files:', nc_files)
 > > print('other_files:', other_files)
 > > ~~~
 > > {: .language-python}

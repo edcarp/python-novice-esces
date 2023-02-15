@@ -288,11 +288,30 @@ formats, including SVG, PDF, and JPEG.
 > {: .solution}
 {: .challenge}
 
+### NetCDF files
+
 What about data stored in other types of files? Scientific data is often stored in
 [NetCDF](https://en.wikipedia.org/wiki/NetCDF) files. We can also read these files
 easily with python, but we use to use a different library
 
 We will again use data describing sea waves, but this time looking at a spatial map. This data set shows a static world map, containing data with the multi-year average wave climate. Again, hs_avg is the wave height in metres. But this time, the shape of the matrix is latitude x longitude
+
+> ## Using other libraries
+>
+> For the rest of this lesson, we need to use a python library that isn't included in the default
+> installation of Anaconda. There are various ways to doing this, depending on how you opened the Jupyter Notebook:
+>
+> If you're using Anaconda Navigator:
+> - return to the main window of Anaconda Navigator
+> - select "Environments" from the left-hand menu, and then "**base** (root)"
+> - Select the Not Installed filter option to list all packages that are available in the environment’s channels, but not installed.
+> - Select the name of the package you want to install. We want `NetCDF4`
+> - Click Apply
+>
+> If you opened the Jupyter Notebook via the command line:
+> - you'll need to close the Notebook (Ctrl+C, twice)
+> - run the command, and accept the prompt (`y`)
+{: .callout}
 
 ~~~
 import netCDF4 as nc

@@ -463,7 +463,7 @@ freeing us from having to manually examine every plot for features we've seen be
 > {: .output}
 > But
 > ~~~
-> 'String'.startswith('ING')
+> 'String'.endswith('ING')
 > ~~~
 > {: .language-python}
 > ~~~

@@ -310,7 +310,7 @@ We will again use data describing sea waves, but this time looking at a spatial 
 >
 > If you opened the Jupyter Notebook via the command line:
 > - you'll need to close the Notebook (Ctrl+C, twice)
-> - run the command, and accept the prompt (`y`)
+> - run the command `conda install netcdf4`, and accept any prompt(s) (`y`)
 {: .callout}
 
 ~~~

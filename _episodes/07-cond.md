@@ -196,7 +196,7 @@ Let's test that out for January:
 ~~~
 data = numpy.loadtxt(fname='reshaped_data.csv', delimiter=',')
 
-month0 = numpy.max(data, axis=0)[0]
+month0 = numpy.mean(data, axis=0)[0]
 
 if month0 < 3:
     print('Can take passengers this month')
@@ -215,7 +215,7 @@ Can't take any boats out to sea
 Now let's try for June
 
 ~~~
-month5 = numpy.max(data, axis=0)[5]
+month5 = numpy.mean(data, axis=0)[5]
 
 if month5 < 3:
     print('Can take passengers this month')

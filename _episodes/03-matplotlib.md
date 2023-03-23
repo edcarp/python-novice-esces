@@ -79,15 +79,15 @@ matplotlib.pyplot.show()
 ~~~
 {: .language-python}
 
-![A line graph showing the maximum wave height over a 37 year period.](../fig/monthly_wavedata-max.png)
+![A line graph showing the maximum wave height per month over a 37 year period.](../fig/monthly_wavedata-max.png)
 
 ~~~
-min_plot = matplotlib.pyplot.plot(numpy.min(data, axis=1))
+min_plot = matplotlib.pyplot.plot(numpy.min(data, axis=0))
 matplotlib.pyplot.show()
 ~~~
 {: .language-python}
 
-![A line graph showing the minimum wave height over a 37 year period.](../fig/monthly_wavedata-min.png)
+![A line graph showing the minimum wave height per month over a 37 year period.](../fig/monthly_wavedata-min.png)
 
 The minimum and maximum graphs show the large spread of all possible wave heights throughout the dataset. There is still a seasonal cycle, but less clear as the extremes are much less smooth. The maximum wave heights can reach a massive 7 metres, and even in the summer the maximum is 4.5m (around the height of a double decker bus!) The minimum values are more similar throughout the year, varying between 1.5 and 2.5 metres. 
 

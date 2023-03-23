@@ -475,7 +475,7 @@ average monthly temperature. To do that, we'll need to _reshape_ it. `Numpy` all
 relatively easily:
 
 ~~~
-reshaped_data = numpy.reshape(d[:,2], [37,12]) # reshape the data to form a 2D array of year by month
+reshaped_data = numpy.reshape(data[:,2], [37,12]) # reshape the data to form a 2D array of year by month
 ~~~
 {: .language-python}
 

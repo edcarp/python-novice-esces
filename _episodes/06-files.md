@@ -28,7 +28,7 @@ while `?` matches any one character.
 We can use this to get the names of all the CSV files in the current directory:
 
 ~~~
-print(glob.glob('wave*.csv'))
+print(glob.glob('waves_*.csv'))
 ~~~
 {: .language-python}
 

@@ -806,7 +806,7 @@ which is the average wave height per month across all years.
 > each day across the first 6 months of waves in year 3 from our dataset.
 >
 > ~~~
-> year3 = reshaped_data[3, :]
+> year3 = reshaped_data[2, :]
 > print(year3)
 > ~~~
 > {: .language-python}

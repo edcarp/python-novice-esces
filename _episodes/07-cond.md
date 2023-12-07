@@ -153,10 +153,13 @@ Now that we've seen how conditionals work,
 we can use them to look for thresholds in our wave data.
 We are about to use functions provided by the `numpy` module again.
 Therefore, if you're working in a new Python session, make sure to load the
-module with:
+module, and load and reshape one of the data files:
 
 ~~~
 import numpy
+
+data = numpy.loadtxt(fname = "waves_80s.csv", delimiter=",")
+data = numpy.reshape(data[:,2], [10,12])
 ~~~
 {: .language-python}
 
@@ -236,7 +239,7 @@ Notice how the statement stops as soon as it reaches a condition which is `True`
 We could test for all months less manually, using a `for loop`:
 
 ~~~
-for month_index, monthly_waveheight in enumerate(numpy.mean(r, axis=0)):
+for month_index, monthly_waveheight in enumerate(numpy.mean(data, axis=0)):
     if monthly_waveheight < 3:
         print(f"Month {month_index}: we can take passengers this month")
     elif monthly_waveheight < 4:

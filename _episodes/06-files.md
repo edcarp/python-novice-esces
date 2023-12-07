@@ -168,13 +168,14 @@ Let's load `waves_90s.csv`:
 
 ~~~
 data = numpy.loadtxt(fname = "waves_90s.csv", delimiter=',')
+data = numpy.reshape(data[:,2], [10,12])
 ~~~
 {: .language-python}
 
 If we try and take the mean for the entire year, we'll see that there must be NaNs:
 
 ~~~
-numpy.mean(data[:,2])
+numpy.mean(data)
 ~~~
 {: .language-python}
 
@@ -183,7 +184,7 @@ nan
 ~~~
 {: .output}
 
-If we had only plotted the reshaped data, we would see white squares where there are NaNs in the data:
+If we plot the reshaped data, we would see white squares where there are NaNs in the data:
 
 ~~~
 matplotlib.pyplot.imshow(data)

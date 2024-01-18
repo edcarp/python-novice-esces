@@ -496,9 +496,9 @@ The shape of the reshaped data is:
 We can verify that nothing about the data has changed:
 
 ~~~
-print(f"The maximum value of the reshaped data is: {numpy.max(reshaped)}")
-print(f"The minimum value of the reshaped data is: {numpy.min(reshaped)}")
-print(f"The standard deviation of the reshaped data is: {numpy.std(reshaped)}")
+print(f"The maximum value of the reshaped data is: {numpy.max(reshaped_data)}")
+print(f"The minimum value of the reshaped data is: {numpy.min(reshaped_data)}")
+print(f"The standard deviation of the reshaped data is: {numpy.std(reshaped_data)}")
 ~~~
 {: .language-python}
 

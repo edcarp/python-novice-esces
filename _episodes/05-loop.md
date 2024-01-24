@@ -384,7 +384,11 @@ so we should always use it when we can.
 > Suppose you have encoded a polynomial as a list of coefficients in
 > the following way: the first element is the constant term, the
 > second element is the coefficient of the linear term, the third is the
-> coefficient of the quadratic term, etc.
+> coefficient of the quadratic term, etc, where the polynomial is of the form
+>
+> ax^0 + bx^1 + cx^2
+>
+> (when writing polynomials mathematically, the x^0, is often omitted since this equals 1)
 >
 > ~~~
 > x = 5

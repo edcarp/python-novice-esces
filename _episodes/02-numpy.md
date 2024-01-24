@@ -496,9 +496,9 @@ The shape of the reshaped data is:
 We can verify that nothing about the data has changed:
 
 ~~~
-print(f"The maximum value of the reshaped data is: {numpy.max(reshaped)}")
-print(f"The minimum value of the reshaped data is: {numpy.min(reshaped)}")
-print(f"The standard deviation of the reshaped data is: {numpy.std(reshaped)}")
+print(f"The maximum value of the reshaped data is: {numpy.max(reshaped_data)}")
+print(f"The minimum value of the reshaped data is: {numpy.min(reshaped_data)}")
+print(f"The standard deviation of the reshaped data is: {numpy.std(reshaped_data)}")
 ~~~
 {: .language-python}
 
@@ -803,11 +803,11 @@ which is the average wave height per month across all years.
 >
 > The `numpy.diff()` function takes an array and returns the differences
 > between two successive values. Let's use it to examine the changes
-> each day across the first 6 months of waves in year 3 from our dataset.
+> each day across the first 6 months of waves in year 4 from our dataset.
 >
 > ~~~
-> year3 = reshaped_data[2, :]
-> print(year3)
+> year4 = reshaped_data[3, :]
+> print(year4)
 > ~~~
 > {: .language-python}
 >
@@ -816,7 +816,7 @@ which is the average wave height per month across all years.
 > ~~~
 > {: .output}
 >
-> Calling `numpy.diff(year3)` would do the following calculations
+> Calling `numpy.diff(year4)` would do the following calculations
 >
 > ~~~
 > [ 4.886 - 3.73, 4.76 - 4.886, 3.188 - 4.76, 2.528 - 3.188, 1.662 - 2.528, 1.952 - 1.662, 2.388 - 1.952, 3.336 - 2.388, 4.034 - 3.336, 4.502 - 4.034, 5.438 - 4.502 ]
@@ -826,7 +826,7 @@ which is the average wave height per month across all years.
 > and return the 11 difference values in a new array.
 >
 > ~~~
-> numpy.diff(year3)
+> numpy.diff(year4)
 > ~~~
 > {: .language-python}
 >

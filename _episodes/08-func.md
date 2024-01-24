@@ -32,7 +32,7 @@ keypoints:
 ---
 
 At this point,
-we've written code to draw some interesting features in our inflammation data,
+we've written code to draw some interesting features in our wave data,
 loop over all our data files to quickly draw these plots for each of them,
 and have Python make decisions based on what it sees in our data.
 But, our code is getting pretty long and complicated;
@@ -204,16 +204,21 @@ temperature in Kelvin was: 373.15
 ## Tidying up
 
 Now that we know how to wrap bits of code up in functions,
-we can make our inflammation analysis easier to read and easier to reuse.
+we can make our wave data easier to read and easier to reuse.
 First, let's make a `visualize` function that generates our plots:
 
 ~~~
 def visualize(filename):
 
     data = numpy.loadtxt(fname=filename, delimiter=',')
+    number_of_rows = data.shape[0]
+    number_of_years = number_of_rows//12
 
+    # need to reshape the data for plotting
+    data = numpy.reshape(data[:,2], [number_of_years,12])
+    
     fig = matplotlib.pyplot.figure(figsize=(10.0, 3.0))
-
+        
     axes1 = fig.add_subplot(1, 3, 1)
     axes2 = fig.add_subplot(1, 3, 2)
     axes3 = fig.add_subplot(1, 3, 3)
@@ -232,7 +237,7 @@ def visualize(filename):
 ~~~
 {: .language-python}
 
-and another function called `detect_problems` that checks for those systematics
+<!-- and another function called `detect_problems` that checks for those systematics
 we noticed:
 
 ~~~
@@ -247,24 +252,23 @@ def detect_problems(filename):
     else:
         print('Seems OK!')
 ~~~
-{: .language-python}
+{: .language-python} -->
 
-Wait! Didn't we forget to specify what both of these functions should return? Well, we didn't.
+Wait! Didn't we forget to specify what this function should return? Well, we didn't.
 In Python, functions are not required to include a `return` statement and can be used for
 the sole purpose of grouping together pieces of code that conceptually do one thing. In such cases,
-function names usually describe what they do, _e.g._ `visualize`, `detect_problems`.
+function names usually describe what they do, _e.g._ `visualize`.
 
 Notice that rather than jumbling this code together in one giant `for` loop,
-we can now read and reuse both ideas separately.
+we can now read and reuse the code.
 We can reproduce the previous analysis with a much simpler `for` loop:
 
 ~~~
-filenames = sorted(glob.glob('inflammation*.csv'))
+filenames = sorted(glob.glob('waves_*.csv'))
 
 for filename in filenames[:3]:
     print(filename)
     visualize(filename)
-    detect_problems(filename)
 ~~~
 {: .language-python}
 
@@ -310,19 +314,19 @@ That looks right,
 so let's try `offset_mean` on our real data:
 
 ~~~
-data = numpy.loadtxt(fname='inflammation-01.csv', delimiter=',')
+data = numpy.loadtxt(fname='reshaped_data.csv', delimiter=' ') # notice the different value to delimiter
 print(offset_mean(data, 0))
 ~~~
 {: .language-python}
 
 ~~~
-[[-6.14875 -6.14875 -5.14875 ... -3.14875 -6.14875 -6.14875]
- [-6.14875 -5.14875 -4.14875 ... -5.14875 -6.14875 -5.14875]
- [-6.14875 -5.14875 -5.14875 ... -4.14875 -5.14875 -5.14875]
+[[ 4.04436937e-01  3.84436937e-01  1.39043694e+00 -5.65563063e-01
+  -6.49563063e-01 -1.29756306e+00 -1.31756306e+00 -1.14756306e+00
+  -6.15630631e-02  1.28436937e-01  9.64436937e-01  1.24443694e+00]
  ...
- [-6.14875 -5.14875 -5.14875 ... -5.14875 -5.14875 -5.14875]
- [-6.14875 -6.14875 -6.14875 ... -6.14875 -4.14875 -6.14875]
- [-6.14875 -6.14875 -5.14875 ... -5.14875 -5.14875 -6.14875]]
+ [ 3.10443694e+00  2.57043694e+00  8.76436937e-01  2.45443694e+00
+   1.49843694e+00  2.94436937e-01 -7.55630631e-02 -5.97563063e-01
+  -6.73563063e-01 -3.37563063e-01  1.23843694e+00  1.66443694e+00]]
 ~~~
 {: .output}
 
@@ -346,8 +350,8 @@ min, mean, and and max of offset data are: -6.14875 2.84217094304e-16 13.85125
 {: .output}
 
 That seems almost right:
-the original mean was about 6.1,
-so the lower bound from zero is now about -6.1.
+the original mean was about 1.5,
+so the lower bound from zero is now about -1.9.
 The mean of the offset data isn't quite zero --- we'll explore why not in the challenges --- but
 it's pretty close.
 We can even go further and check that the standard deviation hasn't changed:
@@ -358,7 +362,7 @@ print('std dev before and after:', numpy.std(data), numpy.std(offset_data))
 {: .language-python}
 
 ~~~
-std dev before and after: 4.61383319712 4.61383319712
+std dev before and after: 1.1440155050316319 1.144015505031632
 ~~~
 {: .output}
 
@@ -373,7 +377,7 @@ print('difference in standard deviations before and after:',
 {: .language-python}
 
 ~~~
-difference in standard deviations before and after: -3.5527136788e-15
+difference in standard deviations before and after: -2.220446049250313e-16
 ~~~
 {: .output}
 
@@ -468,25 +472,31 @@ In fact,
 we can pass the filename to `loadtxt` without the `fname=`:
 
 ~~~
-numpy.loadtxt('inflammation-01.csv', delimiter=',')
+numpy.loadtxt('reshaped_data.csv', delimiter=' ')
 ~~~
 {: .language-python}
 
 ~~~
-array([[ 0.,  0.,  1., ...,  3.,  0.,  0.],
-       [ 0.,  1.,  2., ...,  1.,  0.,  1.],
-       [ 0.,  1.,  1., ...,  2.,  1.,  1.],
+array([[3.788, 3.768, 4.774, 2.818, 2.734, 2.086, 2.066, 2.236, 3.322,
+        3.512, 4.348, 4.628],
+       [3.666, 4.326, 3.522, 3.18 , 1.954, 1.72 , 1.86 , 1.95 , 3.11 ,
+        3.78 , 3.474, 5.28 ],
+       [5.068, 4.954, 3.77 , 2.402, 2.166, 2.084, 2.246, 2.228, 2.634,
+        4.41 , 4.342, 3.28 ],
        ...,
-       [ 0.,  1.,  1., ...,  1.,  1.,  1.],
-       [ 0.,  0.,  0., ...,  0.,  2.,  0.],
-       [ 0.,  0.,  1., ...,  1.,  1.,  0.]])
+      [4.27 , 4.09 , 3.696, 3.302, 2.502, 1.772, 2.016, 2.172, 3.034,
+        3.462, 3.856, 5.76 ],
+       [4.294, 3.794, 4.646, 3.212, 2.226, 1.558, 1.894, 2.092, 2.58 ,
+        3.87 , 3.108, 6.044],
+       [6.488, 5.954, 4.26 , 5.838, 4.882, 3.678, 3.308, 2.786, 2.71 ,
+        3.046, 4.622, 5.048]])
 ~~~
 {: .output}
 
 but we still need to say `delimiter=`:
 
 ~~~
-numpy.loadtxt('inflammation-01.csv', ',')
+numpy.loadtxt('reshaped_data.csv', ' ')
 ~~~
 {: .language-python}
 
@@ -648,7 +658,7 @@ and eight others that do.
 If we call the function like this:
 
 ~~~
-numpy.loadtxt('inflammation-01.csv', ',')
+numpy.loadtxt('reshaped_data.csv', ',')
 ~~~
 {: .language-python}
 

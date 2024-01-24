@@ -86,7 +86,7 @@ for filename in filenames:
 {: .language-python}
 
 ~~~
-waves-00.csv
+waves_00.csv
 ~~~
 {: .output}
 
@@ -95,7 +95,7 @@ maximum and minimum waveheight in the 2000s.](
 ../fig/waves_loop_1.svg)
 
 ~~~
-waves-10s.csv
+waves_10s.csv
 ~~~
 {: .output}
 
@@ -103,7 +103,7 @@ waves-10s.csv
 maximum and minimum waveheight in the 2010s.](../fig/waves_loop_2.svg)
 
 ~~~
-waves-80s.csv
+waves_80s.csv
 ~~~
 {: .output}
 

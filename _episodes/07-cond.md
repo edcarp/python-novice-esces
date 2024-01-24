@@ -181,7 +181,7 @@ if month0 < 3:
 Survey vehicles can operate in stormier waters, with wave heights up to 4m 
 
 ~~~
-elif numpy.mean(data, axis=0) < 4:
+elif month0 < 4:
     print('Can take survey vehicles (but not passengers)')
 ~~~
 {: .language-python}
@@ -203,7 +203,7 @@ month0 = numpy.mean(data, axis=0)[0]
 
 if month0 < 3:
     print('Can take passengers this month')
-elif numpy.mean(data, axis=0) < 4:
+elif month0 < 4:
     print('Can take survey vehicles (but not passengers)')
 else:
     print('Can't take any boats out to sea')
@@ -222,7 +222,7 @@ month5 = numpy.mean(data, axis=0)[5]
 
 if month5 < 3:
     print('Can take passengers this month')
-elif numpy.mean(data, axis=0) < 4:
+elif month5 < 4:
     print('Can take survey vehicles (but not passengers)')
 else:
     print('Can't take any boats out to sea')

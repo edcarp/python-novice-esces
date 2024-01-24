@@ -40,6 +40,13 @@ import the `pyplot` module from `matplotlib` and use two of its functions to cre
 > data = numpy.reshape(data[:,2], [37,12]) 
 > ~~~
 > {: .language-python}
+>
+> ...or, if you saved the reshaped data into a file
+>
+> ~~~
+> import numpy
+> data = numpy.loadtxt(fname='reshaped_data.csv')
+> ~~~
 {: .prereq}
 
 

@@ -20,11 +20,11 @@ list[2:9]), in the same way as strings and arrays."
 - "Strings are immutable (i.e., the characters in them cannot be changed)."
 ---
 
-In the previous episode, we analyzed a single file of clinical trial inflammation data. However,
-after finding some peculiar and potentially suspicious trends in the trial data we ask
-Dr. Maverick if they have performed any other clinical trials. Surprisingly, they say that they
-have and provide us with 11 more CSV files for a further 11 clinical trials they have undertaken
-since the initial trial.
+In the previous episode, we analyzed a single file of wave data. However,
+after finding some peculiar and potentially suspicious trends in the data we should ask
+if there any more data files. We find that there are 
+four decadal CSV files for the 1980s, 1990s, 2000s, and 2010s. Before we can analyse these,
+we need to learn how to store an arbitary number of items in a list.
 
 Our goal now is to process all the inflammation data we have, which means that we still have
 eleven more files to go!
@@ -186,16 +186,6 @@ does not.
 > index operations shown in the image:
 >
 > ~~~
-> print([x[0]])
-> ~~~
-> {: .language-python}
->
-> ~~~
-> [['pepper', 'zucchini', 'onion']]
-> ~~~
-> {: .output}
->
-> ~~~
 > print(x[0])
 > ~~~
 > {: .language-python}
@@ -212,6 +202,18 @@ does not.
 >
 > ~~~
 > 'pepper'
+> ~~~
+> {: .output}
+>
+> It's also possible to explicitely return a list, either in a print statement or to save in a variable:
+>
+> ~~~
+> print([x[0]])
+> ~~~
+> {: .language-python}
+>
+> ~~~
+> [['pepper', 'zucchini', 'onion']]
 > ~~~
 > {: .output}
 >

@@ -360,20 +360,13 @@ which is the default for plotting matrix-type data (because this is where `[0:0]
 We can also add a colour bar to help describe the figure, with a little more code:
 
 ~~~
-import mpl_toolkits
-
-matplotlib.pyplot.figure()
+fig = matplotlib.pyplot.figure(figsize=(12.0,4.0))
 ax = matplotlib.pyplot.gca()
 im = ax.imshow(globaldata["hs_avg"][0], extent=[0,360,-90,90], origin='lower')
-
-divider = mpl_toolkits.axes_grid1.make_axes_locatable(ax)
-cax = divider.append_axes("right", size="5%", pad=0.05)
-
-matplotlib.pyplot.colorbar(im, cax=cax)
+cbar = fig.colorbar(im, ax=ax, location="right", pad=0.02)
+matplotlib.pyplot.show()
 ~~~
 {: .language-python}
-
-Here, we don't need to use the `mpl_toolkits` library, but it's useful to help format the colourbar.
 
 ![Global surface waveheight with a colourbar](../fig/global_surfaceu-colourbar.svg)
 
